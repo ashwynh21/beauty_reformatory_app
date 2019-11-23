@@ -1,4 +1,4 @@
-# beautyreformatory
+# Beauty Reformatory App
 
 The Beauty Reformatory (BR) is an interactive application that provides women with tools and knowledge to improve their sense of self..
 
