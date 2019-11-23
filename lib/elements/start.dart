@@ -1,15 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flare_flutter/flare_actor.dart';
 
-class Start extends StatelessWidget {
+class Start extends StatefulWidget {
+  _StartState state;
+
+  @override
+  State<StatefulWidget> createState() {
+    state = new _StartState();
+    return state;
+  }
+}
+
+class _StartState extends State<Start> {
+
   @override
   Widget build(BuildContext context) {
     return Container(
-          alignment: Alignment.center,
-          width: 44,
-          height: 44,
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
 
-          child: SvgPicture.asset('lib/assets/icons/logo.svg',)
-      );
+      child: Container(
+
+
+        child: FlareActor('lib/assets/flares/logo.flr', fit: BoxFit.contain, animation: 'show')
+      )
+    );
   }
+
 }

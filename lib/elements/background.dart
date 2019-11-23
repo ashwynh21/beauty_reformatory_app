@@ -1,32 +1,78 @@
+
 import 'package:flutter/material.dart';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:beautyreformatory/utilities/utilities.dart';
+import 'package:flutter_svg/svg.dart';
 
 // ignore: must_be_immutable
 class Background extends StatefulWidget {
+  _BackgroundState state;
+
   String animation;
+  void Function(String) onchange;
 
   Background({Key key,
+    this.onchange,
     this.animation = 'start',
   }) : super(key: key);
 
   @override
-  _BackgroundState createState() => _BackgroundState();
+  _BackgroundState createState() {
+    state = _BackgroundState();
+    return state;
+  }
 }
 
 class _BackgroundState extends State<Background> {
 
   @override
+  void initState() {
+    Future.delayed(Duration(milliseconds: 2400), () {
+      setState(() {
+        widget.animation = 'up';
+      });
+    });
+
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
-    var utilities;
+
     return Stack(
       children: <Widget>[
         Container(
-            color: utilities.colors.white
+          color: utilities.colors.white,
         ),
         Container(
-            width: MediaQuery.of(context).size.width,
+          alignment: Alignment.bottomCenter,
 
-            child: FlareActor('lib/assets/flares/top_wave.flr', animation: widget.animation, fit: BoxFit.contain, alignment: Alignment.topCenter,)
+          child: AnimatedOpacity(
+            duration: Duration(milliseconds: 480),
+            opacity: (widget.animation == 'ambient') ? 1 : 0,
+
+            child: SvgPicture.asset('lib/assets/images/wallpaper.svg',
+              fit: BoxFit.contain,
+              width: MediaQuery.of(context).size.width - 104,
+            ),
+          ),
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width,
+
+          child: FlareActor('lib/assets/flares/top_wave.flr',
+            animation: widget.animation,
+            fit: BoxFit.cover,
+            alignment: Alignment.topCenter,
+            callback: (String animation) {
+              if(animation == 'up')
+                setState(() {
+                  widget.animation = 'ambient';
+
+                  if(widget.onchange != null)
+                    widget.onchange(animation);
+                });
+            },
+          )
         ),
       ],
     );

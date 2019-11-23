@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
 class House extends StatefulWidget {
+  _HouseState state;
+
   House({Key key}) : super(key: key);
 
   @override
-  _HouseState createState() => _HouseState();
+  _HouseState createState() {
+    state = _HouseState();
+    return state;
+  }
 }
 
 class _HouseState extends State<House> {

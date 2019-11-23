@@ -15,18 +15,28 @@ Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
     statusBarColor: utilities.colors.primary,
   ));
+  utilities.flares.preload();
 
   return runApp(BeautyReformatory());
 }
 
-class BeautyReformatory extends StatelessWidget {
+class BeautyReformatory extends StatefulWidget {
+  _BeautyReformatoryState state;
+
+  @override
+  State<StatefulWidget> createState() {
+    state = _BeautyReformatoryState();
+    return state;
+  }
+}
+class _BeautyReformatoryState extends State<BeautyReformatory> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'BR',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: utilities.material_colors.primary,
       ),
       home: Sploosh(),
       routes: <String, WidgetBuilder>{
@@ -34,4 +44,5 @@ class BeautyReformatory extends StatelessWidget {
       },
     );
   }
+
 }
