@@ -1,0 +1,5 @@
+class TaskMiddleware {
+
+    TaskMiddleware();
+
+}

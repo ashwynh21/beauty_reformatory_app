@@ -1,0 +1,4 @@
+class UploadMiddleware {
+
+    UploadMiddleware();
+}
