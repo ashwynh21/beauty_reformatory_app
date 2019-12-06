@@ -1,3 +1,5 @@
+import 'package:beautyreformatory/interface/elements/navigation_bar.dart';
+import 'package:beautyreformatory/interface/elements/status_bar.dart';
 import 'package:flutter/material.dart';
 
 class House extends StatefulWidget {
@@ -15,8 +17,23 @@ class House extends StatefulWidget {
 class _HouseState extends State<House> {
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white,
+    return SafeArea(
+      child: Material(
+        color: Colors.white,
+
+        child: Stack(
+          children: <Widget>[
+            StatusBar(),
+
+            /*
+            Content will be managed in this containment below.
+             */
+            Container(),
+
+            NavigationBar(),
+          ],
+        )
+      ),
     );
   }
 }

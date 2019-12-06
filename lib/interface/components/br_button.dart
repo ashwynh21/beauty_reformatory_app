@@ -1,10 +1,12 @@
 import 'package:beautyreformatory/utilities/resources.dart';
 import 'package:flutter/material.dart';
+import 'package:flare_flutter/flare_actor.dart';
+import 'package:flutter_svg/svg.dart';
 
 class BrButton extends StatefulWidget {
   _BrButtonState state;
 
-  String title;
+  String title, icon;
   Color background, color;
   int elevation, fontSize;
   double height;
@@ -12,6 +14,7 @@ class BrButton extends StatefulWidget {
 
   BrButton({Key key,
     this.title = '',
+    this.icon,
     this.color,
     this.background,
     this.elevation = 4,
@@ -46,17 +49,35 @@ class _BrButtonState extends State<BrButton> {
         },
 
         child: Container(
-          margin: const EdgeInsets.only(left: 16, right: 16, bottom: 0),
-          child: new Text(
-              this.widget.title,
-              textAlign: TextAlign.center,
-              style: new TextStyle(
-                  fontSize: this.widget.fontSize.toDouble(),
-                  fontWeight: FontWeight.w400,
-                  color: this.widget.color
-              )
+          margin: EdgeInsets.only(left: ((widget.icon == null) ? 16 : 8), right: ((widget.icon == null) ? 16 : 8), bottom: 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              (widget.icon != null) ? Container(height: widget.height - 20, width: widget.height - 20, child: icon(widget.icon)) : Container(width: 0, height: 0,),
+              Text(
+                  this.widget.title,
+                  textAlign: TextAlign.center,
+                  style: new TextStyle(
+                      fontSize: this.widget.fontSize.toDouble(),
+                      fontWeight: FontWeight.w400,
+                      color: this.widget.color
+                  )
+              ),
+            ],
           ),
         ),
       );
+  }
+
+  Widget icon(String icon) {
+    if (icon.substring(icon.lastIndexOf('.') + 1, icon.length) == 'svg' ) {
+      return SvgPicture.asset(icon, color: widget.color);
+    } else if (icon.substring(icon.lastIndexOf('.') + 1, icon.length) == 'flr') {
+      return FlareActor(icon, alignment: Alignment.center, fit: BoxFit.contain, animation: 'idle', color: widget.color);
+    }
+
+    return Image.asset(icon,
+        width: 22);
   }
 }

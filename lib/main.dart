@@ -5,7 +5,6 @@ import 'package:beautyreformatory/services/models/user.dart';
 import 'package:beautyreformatory/utilities/resources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,9 +16,9 @@ Future<void> main() async {
    */
 
   /*
+  (await SharedPreferences.getInstance()).clear();
    */
   SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-  (await SharedPreferences.getInstance()).clear();
 
   User user = await UserMiddleware.fromSave();
   if(user != null) {
@@ -59,6 +58,8 @@ class _BeautyReformatoryState extends State<BeautyReformatory> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      color: resources.colors.primary,
+
       title: 'BR',
       theme: ThemeData(
         primarySwatch: resources.material_colors.primary,

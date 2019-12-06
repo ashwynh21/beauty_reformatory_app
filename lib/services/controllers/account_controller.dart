@@ -4,7 +4,9 @@ import 'dart:convert';
 
 import 'package:beautyreformatory/services/helpers/response.dart';
 import 'package:beautyreformatory/services/middleware/account_middleware.dart';
+import 'package:beautyreformatory/services/middleware/user_middleware.dart';
 import 'package:beautyreformatory/services/models/account.dart';
+import 'package:beautyreformatory/services/models/user.dart';
 import 'package:beautyreformatory/utilities/environment.dart' as env;
 import 'package:beautyreformatory/utilities/exceptions.dart';
 import 'package:beautyreformatory/utilities/validators.dart';
@@ -29,8 +31,11 @@ class AccountController {
       return _request(<String, String> {
         'token': token
       }, end: endpoints[3]).then((Response response) async {
+
         Account account = (await AccountMiddleware.fromResponse(response));
         await AccountMiddleware.toSave(account);
+
+        await UserMiddleware.toSave(await UserMiddleware.fromResponse(response));
 
         return account;
       });
@@ -45,8 +50,11 @@ class AccountController {
       return _request(<String, String> {
         'token': token
       }, end: endpoints[2]).then((Response response) async {
+
         Account account = (await AccountMiddleware.fromResponse(response));
         await AccountMiddleware.toSave(account);
+
+        await UserMiddleware.toSave(await UserMiddleware.fromResponse(response));
 
         return account;
       });
@@ -63,8 +71,11 @@ class AccountController {
         'email': email,
         'token': token
       }, end: endpoints[0]).then((Response response) async {
+
         Account account = (await AccountMiddleware.fromResponse(response));
         await AccountMiddleware.toSave(account);
+
+        await UserMiddleware.toSave(await UserMiddleware.fromResponse(response));
 
         return account;
       });
@@ -81,8 +92,12 @@ class AccountController {
         'email': email,
         'token': token
       }, end: endpoints[1]).then((Response response) async {
+
         Account account = (await AccountMiddleware.fromResponse(response));
         await AccountMiddleware.toSave(account);
+
+        User user = await UserMiddleware.fromResponse(response);
+        await UserMiddleware.toSave(user);
 
         return account;
       });
