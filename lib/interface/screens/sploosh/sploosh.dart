@@ -1,8 +1,8 @@
 import 'package:beautyreformatory/interface/elements/background.dart';
-import 'package:beautyreformatory/interface/elements/login.dart';
-import 'package:beautyreformatory/interface/elements/recover.dart';
-import 'package:beautyreformatory/interface/elements/signup.dart';
-import 'package:beautyreformatory/interface/elements/welcome.dart';
+import 'package:beautyreformatory/interface/screens/sploosh/login/login.dart';
+import 'package:beautyreformatory/interface/screens/sploosh/recover/recover.dart';
+import 'package:beautyreformatory/interface/screens/sploosh/signup/signup.dart';
+import 'package:beautyreformatory/interface/screens/sploosh/welcome/welcome.dart';
 import 'package:beautyreformatory/utilities/dialogs.dart';
 import 'package:flutter/material.dart';
 

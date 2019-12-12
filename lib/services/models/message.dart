@@ -4,7 +4,7 @@ import 'package:beautyreformatory/services/models/user.dart';
 
 class Message {
     List<Attaches> attachments; // List<Attaches>
-    DateTime date; // DateTime
+    Map<String, dynamic> date; // DateTime
     Friendship friendship; // Friendship
     String id; // String
     String message; // String

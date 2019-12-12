@@ -2,7 +2,7 @@ import 'Message.dart';
 
 class Attaches {
     String attachment; // String
-    DateTime date; // DateTime
+    Map<String, dynamic> date; // DateTime
     String id; // String
     Message message; // Message
     String type; // String

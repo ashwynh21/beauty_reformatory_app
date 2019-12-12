@@ -3,14 +3,13 @@ import 'dart:async';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:beautyreformatory/utilities/resources.dart';
 
 class BrIconButton extends StatefulWidget {
   _BrIconButtonState state;
 
   String src;
   Color background, color;
-  double elevation, padding;
+  double elevation, padding, size;
   Function(Widget) click;
 
   BrIconButton({Key key,
@@ -20,6 +19,7 @@ class BrIconButton extends StatefulWidget {
     this.elevation = 4,
     this.background,
     this.color,
+    this.size = 44,
   }) : super(key: key);
 
   @override
@@ -35,14 +35,14 @@ class _BrIconButtonState extends State<BrIconButton> {
   @override
   Widget build(BuildContext context) {
     return  MaterialButton(
-        height: 44,
-        minWidth: 44,
+        height: widget.size,
+        minWidth: widget.size,
         padding: EdgeInsets.all(widget.padding.toDouble()),
         color: widget.background,
-        splashColor: resources.colors.light.withOpacity(0.24),
-        highlightColor: resources.colors.light.withOpacity(0.08),
+        splashColor: (widget.color != null) ? widget.color.withOpacity(0.24) : null,
+        highlightColor: (widget.color != null) ? widget.color.withOpacity(0.08) : null,
         elevation: widget.elevation,
-        shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(22.0)),
+        shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(widget.size / 2.0)),
         onPressed: () {
           if (widget.src.substring(widget.src.lastIndexOf('.') + 1, widget.src.length) == 'flr') {
             setState(() {
@@ -58,10 +58,11 @@ class _BrIconButtonState extends State<BrIconButton> {
           widget.click(widget);
         },
 
-        child: Center(
+        child: Align(
+          alignment: Alignment.center,
           child: Container(
-              width: 28,
-              height:28,
+              height: widget.size / 1.5,
+              width: widget.size / 1.5,
               child: icon(widget.src)
           ),
         )

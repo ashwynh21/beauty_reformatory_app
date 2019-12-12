@@ -1,6 +1,7 @@
 import 'package:beautyreformatory/utilities/resources.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class BrInput extends StatefulWidget {
   _BrInputState state;
@@ -8,7 +9,7 @@ class BrInput extends StatefulWidget {
   String icon, placeholder, value;
 
   double height;
-  bool obscure;
+  bool obscure, autofocus;
 
   TextInputType type;
   TextInputAction action;
@@ -25,6 +26,7 @@ class BrInput extends StatefulWidget {
     this.value,
     this.submit,
     this.change,
+    this.autofocus = false,
   }) : super(key: key);
 
   @override
@@ -61,6 +63,8 @@ class _BrInputState extends State<BrInput> {
       }
     });
     controller = new TextEditingController(text: widget.value);
+    if(widget.autofocus)
+      controller.selection = TextSelection(baseOffset: 0, extentOffset: controller.text.length);
 
     super.initState();
   }
@@ -110,6 +114,7 @@ class _BrInputState extends State<BrInput> {
                       cursorWidth: 1.5,
                       textInputAction: widget.action,
                       keyboardType: widget.type,
+                      autofocus: widget.autofocus,
                       focusNode: focus,
                       style: TextStyle(
                         letterSpacing: (widget.type == TextInputType.visiblePassword) ? 8 : 0,
@@ -176,10 +181,10 @@ class _BrInputState extends State<BrInput> {
   }
 
   Widget icon(String icon) {
-    if(icon != null) {
+    if (icon.substring(icon.lastIndexOf('.') + 1, icon.length) == 'svg' ) {
+      return Container(margin: EdgeInsets.only(left: 10), height: 28, width: 28, child: SvgPicture.asset(icon, color: color));
+    } else if (icon.substring(icon.lastIndexOf('.') + 1, icon.length) == 'flr') {
       return Container(height: 28, width: 28, child: FlareActor(icon, animation: animation, color: color,));
-    } else {
-      return Container();
     }
   }
   Widget anchor(String icon) {

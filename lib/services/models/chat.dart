@@ -3,7 +3,7 @@ import 'Message.dart';
 
 class Chat {
     Attaches attachment; // Attachment
-    DateTime date; // DateTime
+    Map<String, dynamic> date; // DateTime
     String id; // String
     Message message; // Message
     String type; // String

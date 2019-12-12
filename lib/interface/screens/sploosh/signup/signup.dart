@@ -95,7 +95,21 @@ class _SignupState extends State<Signup> {
                         Expanded(
                           flex: 2,
                           child: Container(
-                              child: country
+                            child: FutureBuilder(
+                              future: resources.files.preload(context),
+                              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                                if(snapshot.connectionState == ConnectionState.done){
+                                  country = BrDropdown(
+                                    icon: 'lib/interface/assets/flares/globe_icon.flr',
+                                    hint: 'country',
+                                    items: resources.files.countries,
+                                  );
+                                  return country;
+                                }
+
+                                return Container();
+                              },
+                            )
                           ),
                         ),
                         Expanded(
@@ -254,11 +268,6 @@ class _SignupState extends State<Signup> {
           FocusScope.of(context).requestFocus(email.state.focus);
         });
       },
-    );
-    country = BrDropdown(
-      icon: 'lib/interface/assets/flares/globe_icon.flr',
-      hint: 'country',
-      items: resources.files.countries,
     );
     submit = BrButton(
         title: 'sign up',

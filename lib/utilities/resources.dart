@@ -20,6 +20,7 @@ class resources {
 }
 class _colors {
     Color primary = Color(0xFFB97095);
+    Color secondary = Color(0xFF3DC3A4);
 
     Color white = Colors.white;
     Color dark = Color(0xFF261F22);
@@ -68,12 +69,20 @@ class _flare {
 class _files {
   List<String> files = [
     'lib/interface/assets/files/countries.json',
+    'lib/interface/assets/files/emojis.json',
   ];
 
   List<String> countries;
+  List<Map<String, dynamic>> emojis;
 
   Future<void> preload(BuildContext context) async {
-    DefaultAssetBundle.of(context).loadString(files[0]).then((String value) {
+    await DefaultAssetBundle.of(context).loadString(files[1]).then((String value) {
+      emojis = (jsonDecode(value) as Iterable).
+      map((m) {
+        return m as Map<String, dynamic>;
+      }).toList();
+    });
+    await DefaultAssetBundle.of(context).loadString(files[0]).then((String value) {
       countries = (jsonDecode(value) as Iterable).
       map((m) {
         return m['name'].toString();

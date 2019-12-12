@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:beautyreformatory/services/controllers/user_controller.dart';
 import 'package:beautyreformatory/services/helpers/response.dart';
 import 'package:beautyreformatory/services/models/user.dart';
 import 'package:beautyreformatory/utilities/exceptions.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserMiddleware {
@@ -48,12 +50,16 @@ class UserMiddleware {
     } catch(e) {
       throw e;
     }
+
     return user;
   }
   static Future<void> toSave(User user) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
     Type type = User;
+
+    Map<String, dynamic> u = user.toJson();
+    u['date'] = jsonEncode(u['date']);
 
     preferences.setString(type.toString(), jsonEncode(user.toJson()));
   }

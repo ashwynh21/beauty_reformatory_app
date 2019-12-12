@@ -2,7 +2,7 @@ import 'package:beautyreformatory/services/models/Chat.dart';
 
 class Upload {
     Chat chat; // Chat
-    DateTime date; // DateTime
+    Map<String, dynamic> date; // DateTime
     String id; // String
     String type; // String
     String upload; // String

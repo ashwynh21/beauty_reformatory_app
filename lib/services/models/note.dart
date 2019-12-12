@@ -1,7 +1,7 @@
 import 'Task.dart';
 
 class Note {
-    DateTime date; // DateTime
+    Map<String, dynamic> date; // DateTime
     String id; // String
     String note; // String
     Task task; // Task

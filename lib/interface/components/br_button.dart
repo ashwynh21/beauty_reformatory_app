@@ -49,12 +49,23 @@ class _BrButtonState extends State<BrButton> {
         },
 
         child: Container(
-          margin: EdgeInsets.only(left: ((widget.icon == null) ? 16 : 8), right: ((widget.icon == null) ? 16 : 8), bottom: 0),
+          margin: EdgeInsets.only(left: ((widget.icon == null) ? 16 : 4), right: ((widget.icon == null) ? 16 : 4), bottom: 0),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              (widget.icon != null) ? Container(height: widget.height - 20, width: widget.height - 20, child: icon(widget.icon)) : Container(width: 0, height: 0,),
+            children: (widget.icon != null) ? <Widget>[
+              Container(height: widget.height - 20, width: widget.height - 20, child: icon(widget.icon)),
+              Text(
+                this.widget.title,
+                textAlign: TextAlign.center,
+                style: new TextStyle(
+                  fontSize: this.widget.fontSize.toDouble(),
+                  fontWeight: FontWeight.w400,
+                  color: this.widget.color
+                )
+              ),
+            ]
+            : <Widget>[
               Text(
                   this.widget.title,
                   textAlign: TextAlign.center,

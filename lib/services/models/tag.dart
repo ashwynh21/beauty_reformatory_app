@@ -1,7 +1,7 @@
 import 'package:beautyreformatory/services/models/Post.dart';
 
 class Tag {
-    DateTime date; // DateTime
+    Map<String, dynamic> date; // DateTime
     String id; // String
     Post post; // Post
     String tag; // String

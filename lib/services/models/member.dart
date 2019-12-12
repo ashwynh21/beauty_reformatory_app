@@ -6,7 +6,7 @@ import 'Friendship.dart';
 class Member {
     List<Chat> chats; // List<Chat>
     Circle circle; // Circle
-    DateTime date; // DateTime
+    Map<String, dynamic> date; // DateTime
     Friendship friendship; // Friendship
     String id; // String
     int state; // int

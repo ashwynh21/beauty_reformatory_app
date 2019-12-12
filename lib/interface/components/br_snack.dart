@@ -32,37 +32,39 @@ class _BrSnackState extends State<BrSnack> {
       width: MediaQuery.of(context).size.width,
       left: (show) ? 0 : MediaQuery.of(context).size.width,
       bottom: 48,
+      child: Opacity(
+        opacity: 0.64,
+        child: Container(
+          alignment: Alignment.bottomCenter,
 
-      child: Container(
-        alignment: Alignment.bottomCenter,
-
-        child: Material(
-          elevation: 4,
-          borderRadius: BorderRadius.circular(32.0),
-
-          child: ClipRRect(
+          child: Material(
+            elevation: 4,
             borderRadius: BorderRadius.circular(32.0),
 
-            child: Material(
-              color: resources.colors.primary,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(32.0),
 
-              child: InkWell(
-                splashColor: resources.colors.light.withOpacity(0.24),
-                highlightColor: resources.colors.light.withOpacity(0.08),
-                onTap: () {
-                  setState(() {
-                    show = false;
-                  });
-                },
-                child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              child: Material(
+                color: resources.colors.primary,
 
-                  child: Text(widget.text,
-                      style: TextStyle(
-                        color: resources.colors.white,
-                        fontSize: 12,
+                child: InkWell(
+                  splashColor: resources.colors.light.withOpacity(0.24),
+                  highlightColor: resources.colors.light.withOpacity(0.08),
+                  onTap: () {
+                    setState(() {
+                      show = false;
+                    });
+                  },
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+
+                    child: Text(widget.text,
+                        style: TextStyle(
+                          color: resources.colors.white,
+                          fontSize: 12,
+                        ),
                       ),
-                    ),
+                  ),
                 ),
               ),
             ),
@@ -77,7 +79,7 @@ class _BrSnackState extends State<BrSnack> {
       widget.text = text;
       show = true;
     });
-    Future.delayed(Duration(seconds: 6), () {
+    Future.delayed(Duration(seconds: 4), () {
       setState(() {
         show = false;
       });

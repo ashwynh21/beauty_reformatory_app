@@ -4,7 +4,7 @@ import 'User.dart';
 class Circle {
     String cover; // String
     User creator; // User
-    DateTime date; // DateTime
+    Map<String, dynamic> date; // DateTime
     String id; // String
     List<Member> members; // Member
     String name; // String

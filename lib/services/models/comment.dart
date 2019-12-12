@@ -3,7 +3,7 @@ import 'Post.dart';
 import 'User.dart';
 
 class Comment {
-    DateTime date; // DateTime
+    Map<String, dynamic> date; // DateTime
     String id; // String
     Post post; // Post
     String text; // String

@@ -1,5 +1,8 @@
-import 'package:beautyreformatory/interface/screens/house.dart';
-import 'package:beautyreformatory/interface/screens/sploosh.dart';
+import 'package:beautyreformatory/interface/screens/house/house.dart';
+import 'package:beautyreformatory/interface/screens/sploosh/sploosh.dart';
+import 'package:beautyreformatory/services/controllers/emotion_controller.dart';
+import 'package:beautyreformatory/services/controllers/friendship_controller.dart';
+import 'package:beautyreformatory/services/controllers/user_controller.dart';
 import 'package:beautyreformatory/services/middleware/user_middleware.dart';
 import 'package:beautyreformatory/services/models/user.dart';
 import 'package:beautyreformatory/utilities/resources.dart';
@@ -22,6 +25,27 @@ Future<void> main() async {
 
   User user = await UserMiddleware.fromSave();
   if(user != null) {
+    /*
+    Considering adding a network syncing block of code here to make sure
+    the user get a refresh list of content that is not theirs.
+
+    This block could be an opportunity to check token expiration and make a
+    refresh request or otherwise.
+     */
+    UserController()
+        .refresh(email: user.email, token: user.token)
+        .then((User u) {
+          FriendshipController()
+              .get(email: u.email, token: u.token);
+          EmotionController()
+              .get(email: u.email, token: u.token);
+        })
+        .catchError((error) {
+          /*
+          User will have to operate in offline mode
+           */
+        });
+
     widget = new House();
   }
 
@@ -51,8 +75,6 @@ class _BeautyReformatoryState extends State<BeautyReformatory> {
   // This widget is the root of your application.
   @override
   void initState() {
-    resources.files.preload(context);
-
     super.initState();
   }
   @override

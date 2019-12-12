@@ -4,10 +4,10 @@ import 'Journal.dart';
 
 class Task {
     bool completed; // bool
-    DateTime date; // DateTime
+    Map<String, dynamic> date; // DateTime
     String description; // String
-    DateTime due; // DateTime
-    DateTime finish; // DateTime
+    Map<String, dynamic> due; // DateTime
+    Map<String, dynamic> finish; // DateTime
     String id; // String
     Journal journal; // Journal
     List<Note> notes; // List<Note>

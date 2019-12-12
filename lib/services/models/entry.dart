@@ -1,7 +1,7 @@
 import 'Journal.dart';
 
 class Entry {
-    DateTime date; // DateTime
+    Map<String, dynamic> date; // DateTime
     String entry; // String
     String id; // String
     Journal journal; // Journal

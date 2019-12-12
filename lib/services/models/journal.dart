@@ -7,7 +7,7 @@ import 'daily.dart';
 
 class Journal {
     List<Daily> dailies; // List<Daily>
-    DateTime date; // DateTime
+    Map<String, dynamic> date; // DateTime
     List<Entry> entries; // List<Entry>
     List<Goal> goals; // List<Goal>
     String id; // String

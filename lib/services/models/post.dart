@@ -6,7 +6,7 @@ import 'Tag.dart';
 class Post {
     List<Comment> comments; // List<Comment>
     String content; // String
-    DateTime date; // DateTime
+    Map<String, dynamic> date; // DateTime
     String id; // String
     List<Tag> tags; // List<Tag>
     String title; // String

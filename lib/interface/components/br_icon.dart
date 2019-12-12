@@ -7,12 +7,14 @@ import 'package:flutter_svg/svg.dart';
 class BrIcon extends StatefulWidget {
   String src;
   Color color;
+  double size;
   Function(Widget) click;
 
   BrIcon({Key key,
     @required this.src,
     @required this.click,
-    @required this.color,
+    this.color,
+    this.size = 38
   }) : super(key: key);
 
   @override
@@ -24,31 +26,36 @@ class _BrIconState extends State<BrIcon> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 38,
-      height: 38,
+    return Container(
 
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(19),
-        child: MaterialButton(
-          padding: EdgeInsets.all(9),
-          splashColor: widget.color.withOpacity(0.12),
-          highlightColor: widget.color.withOpacity(0.24),
-          onPressed: () {
-            if (widget.src.substring(widget.src.lastIndexOf('.') + 1, widget.src.length) == 'flr') {
-              setState(() {
-                animation = 'active';
-              });
+      child: Center(
+        child: SizedBox(
+          width: widget.size,
+          height: widget.size,
 
-              Timer(const Duration(milliseconds: 1000), () {
-                setState(() {
-                  animation = 'idle';
-                });
-              });
-            }
-            widget.click(widget);
-          },
-          child: Container(height: 32, width: 32, child: icon(widget.src)),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(widget.size / 2),
+            child: MaterialButton(
+              padding: EdgeInsets.all(9),
+              splashColor: (widget.color != null) ? widget.color.withOpacity(0.12) : null,
+              highlightColor: (widget.color != null) ? widget.color.withOpacity(0.24) : null,
+              onPressed: () {
+                if (widget.src.substring(widget.src.lastIndexOf('.') + 1, widget.src.length) == 'flr') {
+                  setState(() {
+                    animation = 'active';
+                  });
+
+                  Timer(const Duration(milliseconds: 1000), () {
+                    setState(() {
+                      animation = 'idle';
+                    });
+                  });
+                }
+                widget.click(widget);
+              },
+              child: Container(child: icon(widget.src)),
+            ),
+          ),
         ),
       ),
     );

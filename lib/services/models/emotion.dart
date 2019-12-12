@@ -1,10 +1,12 @@
 
-import 'User.dart';
+import 'dart:convert';
+
+import 'user.dart';
 
 class Emotion {
-    DateTime date; // DateTime
+    Map<String, dynamic> date; // DateTime
     String id; // String
-    double mood; // double
+    String mood; // double
     User user; // User
 
     Emotion({this.date, this.id, this.mood, this.user});
@@ -13,8 +15,8 @@ class Emotion {
         return Emotion(
             date: json['date'], 
             id: json['id'], 
-            mood: json['mood'], 
-            user: json['user'], 
+            mood: json['mood'],
+            user: (json.containsKey('user') && json['user'] != null) ? User.fromJson(json['user']) : null,
         );
     }
 
@@ -23,7 +25,16 @@ class Emotion {
         data['date'] = this.date;
         data['id'] = this.id;
         data['mood'] = this.mood;
-        data['user'] = this.user;
+        data['user'] = (this.user != null) ? this.user.toJson() : null;
+        return data;
+    }
+
+    Map<String, dynamic> toSQL() {
+        final Map<String, dynamic> data = new Map<String, dynamic>();
+        data['date'] = jsonEncode(this.date);
+        data['id'] = this.id;
+        data['mood'] = this.mood;
+        data['user'] = (this.user != null) ? jsonEncode(this.user.toJson()) : null;
         return data;
     }
 }

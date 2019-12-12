@@ -1,5 +1,7 @@
 import 'package:beautyreformatory/interface/elements/navigation_bar.dart';
 import 'package:beautyreformatory/interface/elements/status_bar.dart';
+import 'package:beautyreformatory/interface/screens/house/profile/profile.dart';
+import 'package:beautyreformatory/utilities/dialogs.dart';
 import 'package:flutter/material.dart';
 
 class House extends StatefulWidget {
@@ -22,15 +24,24 @@ class _HouseState extends State<House> {
         color: Colors.white,
 
         child: Stack(
+          alignment: Alignment.topCenter,
           children: <Widget>[
-            StatusBar(),
 
             /*
             Content will be managed in this containment below.
              */
-            Container(),
+            Container(
+              margin: EdgeInsets.only(top: 80),
+
+              child: Profile(),
+            ),
+
+            StatusBar(),
 
             NavigationBar(),
+
+            snack,
+            loader,
           ],
         )
       ),

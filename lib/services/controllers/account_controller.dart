@@ -2,15 +2,16 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:beautyreformatory/services/controllers/user_controller.dart';
 import 'package:beautyreformatory/services/helpers/response.dart';
 import 'package:beautyreformatory/services/middleware/account_middleware.dart';
 import 'package:beautyreformatory/services/middleware/user_middleware.dart';
 import 'package:beautyreformatory/services/models/account.dart';
 import 'package:beautyreformatory/services/models/user.dart';
-import 'package:beautyreformatory/utilities/environment.dart' as env;
 import 'package:beautyreformatory/utilities/exceptions.dart';
 import 'package:beautyreformatory/utilities/validators.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:beautyreformatory/utilities/environment.dart' as env;
 import 'package:http/http.dart' as http;
 
 class AccountController {
@@ -31,11 +32,11 @@ class AccountController {
       return _request(<String, String> {
         'token': token
       }, end: endpoints[3]).then((Response response) async {
-
+        User user = await UserMiddleware.fromResponse(response);
         Account account = (await AccountMiddleware.fromResponse(response));
-        await AccountMiddleware.toSave(account);
 
-        await UserMiddleware.toSave(await UserMiddleware.fromResponse(response));
+        user.accounts = [account];
+        await AccountMiddleware.toSave(user);
 
         return account;
       });
@@ -50,11 +51,11 @@ class AccountController {
       return _request(<String, String> {
         'token': token
       }, end: endpoints[2]).then((Response response) async {
-
+        User user = await UserMiddleware.fromResponse(response);
         Account account = (await AccountMiddleware.fromResponse(response));
-        await AccountMiddleware.toSave(account);
 
-        await UserMiddleware.toSave(await UserMiddleware.fromResponse(response));
+        user.accounts = [account];
+        await AccountMiddleware.toSave(user);
 
         return account;
       });
@@ -71,11 +72,11 @@ class AccountController {
         'email': email,
         'token': token
       }, end: endpoints[0]).then((Response response) async {
-
+        User user = await UserMiddleware.fromResponse(response);
         Account account = (await AccountMiddleware.fromResponse(response));
-        await AccountMiddleware.toSave(account);
 
-        await UserMiddleware.toSave(await UserMiddleware.fromResponse(response));
+        user.accounts = [account];
+        await AccountMiddleware.toSave(user);
 
         return account;
       });
@@ -92,22 +93,22 @@ class AccountController {
         'email': email,
         'token': token
       }, end: endpoints[1]).then((Response response) async {
-
-        Account account = (await AccountMiddleware.fromResponse(response));
-        await AccountMiddleware.toSave(account);
-
         User user = await UserMiddleware.fromResponse(response);
-        await UserMiddleware.toSave(user);
+        Account account = (await AccountMiddleware.fromResponse(response));
+
+        user.accounts = [account];
+        await AccountMiddleware.toSave(user);
 
         return account;
       });
     }
   }
 
-  Future<Response> _request(Map<String, dynamic> data, {String end}) async {
+  Future<Response> _request(Map<String, dynamic> data,
+      {String end, int timeout = 8}) async {
     return http.post(env.root + branch + end,
         body: data)
-        .timeout(Duration(seconds: env.timeout))
+        .timeout(Duration(seconds: timeout))
         .then((http.Response response) {
 
       switch(response.statusCode) {
@@ -122,11 +123,7 @@ class AccountController {
       }
     })
         .catchError((error) {
-      if (error.runtimeType == TimeoutException) {
-        return this._request(data, end: end);
-      }
-
-      throw ConnectionException('Oops, a request error has occured!');
-    });
+          throw ConnectionException('Oops, a request error has occured!');
+        });
   }
 }

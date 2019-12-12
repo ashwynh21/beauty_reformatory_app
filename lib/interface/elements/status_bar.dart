@@ -1,5 +1,5 @@
-import 'package:beautyreformatory/interface/components/br_button.dart';
 import 'package:beautyreformatory/interface/components/br_icon.dart';
+import 'package:beautyreformatory/interface/components/br_icon_button.dart';
 import 'package:beautyreformatory/utilities/resources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,7 +13,7 @@ class StatusBar extends StatefulWidget {
 
 class _StatusBarState extends State<StatusBar> {
   BrIcon heart, notifications, messages;
-  BrButton share;
+  BrIconButton share;
 
   @override
   void initState() {
@@ -27,10 +27,12 @@ class _StatusBarState extends State<StatusBar> {
     return Align(
       alignment: Alignment.topCenter,
       child: Material(
-        elevation: 4,
+        elevation: 12,
+        shadowColor: Colors.black26,
+
         child: Container(
           width: MediaQuery.of(context).size.width,
-          height: 72,
+          height: 80,
           color: resources.colors.white,
 
           child: Row(
@@ -53,13 +55,27 @@ class _StatusBarState extends State<StatusBar> {
                 ),
               ),
               Container(
+                  margin: EdgeInsets.only(right: 24),
                 child: SvgPicture.asset('lib/interface/assets/icons/logo.svg', width: 40,)
               ),
-              Container(
-                margin: EdgeInsets.only(right: 24),
-                width: 112,
-
-                child: share
+              Row(
+                children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.only(right: 8),
+                      child: Text('journal',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 14,
+                          fontFamily: 'Jandys Dua',
+                          color: resources.colors.primary
+                        ),
+                      )),
+                  Container(
+                      width: 36,
+                      height: 36,
+                      margin: EdgeInsets.only(right: 24),
+                      child: share),
+                ],
               )
             ],
           )
@@ -89,13 +105,12 @@ class _StatusBarState extends State<StatusBar> {
 
         }
     );
-    share = BrButton(
-      height: 36,
-      title: 'share',
-      icon: 'lib/interface/assets/icons/journal.svg',
+    share = BrIconButton(
+      src: 'lib/interface/assets/icons/journal.svg',
       color: resources.colors.white,
       background: resources.colors.primary,
       elevation: 4,
+      padding: 10,
       click: (view) {
 
       }

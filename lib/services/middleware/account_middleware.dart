@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:beautyreformatory/services/helpers/response.dart';
 import 'package:beautyreformatory/services/models/account.dart';
+import 'package:beautyreformatory/services/models/user.dart';
 import 'package:beautyreformatory/utilities/exceptions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,28 +27,13 @@ class AccountMiddleware {
             return account;
         }
     }
-    static Future<Account> fromSave() async {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        Account account;
-        Type type = Account;
 
-        try{
-            String data = preferences.getString(type.toString());
-
-            if(data != null)
-                account = Account.fromJson(jsonDecode(data));
-        } catch(e) {
-            throw e;
-        }
-        return account;
-    }
-
-    static Future<void> toSave(Account account) async {
+    static Future<void> toSave(User user) async {
         SharedPreferences preferences = await SharedPreferences.getInstance();
 
-        Type type = Account;
+        Type type = User;
 
-        preferences.setString(type.toString(), jsonEncode(account.toJson()));
+        preferences.setString(type.toString(), jsonEncode(user.toJson()));
     }
     static Future<void> clearSave() async {
         SharedPreferences preferences = await SharedPreferences.getInstance();

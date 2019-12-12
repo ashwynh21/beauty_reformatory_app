@@ -1,9 +1,9 @@
 import 'Journal.dart';
 
 class Daily {
-    DateTime date; // DateTime
+    Map<String, dynamic> date; // DateTime
     String description; // String
-    DateTime duration; // DateTime
+    Map<String, dynamic> duration; // DateTime
     String id; // String
     Journal journal; // Journal
     DateTime time; // DateTime

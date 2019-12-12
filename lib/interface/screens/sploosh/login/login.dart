@@ -280,7 +280,7 @@ class _LoginState extends State<Login> {
                 });
               }).catchError((error) {
                 loader.show(false);
-                snack.show(error.message);
+                snack.show(error.toString());
               });
           });
         }).catchError((error) {
@@ -317,7 +317,7 @@ class _LoginState extends State<Login> {
                 });
               }).catchError((error) {
                 loader.show(false);
-                snack.show(error.message);
+                snack.show(error.toString());
               });
 
               break;
