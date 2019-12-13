@@ -1,33 +1,20 @@
-import 'dart:convert';
-
 import 'package:beautyreformatory/interface/components/br_avatar.dart';
 import 'package:beautyreformatory/interface/components/br_icon.dart';
 import 'package:beautyreformatory/services/controllers/user_controller.dart';
-import 'package:beautyreformatory/services/middleware/user_middleware.dart';
 import 'package:beautyreformatory/services/models/user.dart';
 import 'package:beautyreformatory/utilities/resources.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class NavigationBar extends StatefulWidget {
-  NavigationBar({Key key}) : super(key: key);
-
-  @override
-  _NavigationBarState createState() => _NavigationBarState();
-}
-
-class _NavigationBarState extends State<NavigationBar> {
+class NavigationBar extends StatelessWidget {
   BrIcon circles, settings, lightroom, profile;
 
-  User user;
-
-  @override
-  void initState() {
+  NavigationBar({Key key,
+  }) {
     _inputinit();
-
-    super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -65,16 +52,16 @@ class _NavigationBarState extends State<NavigationBar> {
                           child: circles
                       ),
                       Container(
-                        margin: EdgeInsets.only(left: 12),
+                          margin: EdgeInsets.only(left: 12),
                           child: settings
                       ),
                     ],
                   ),
                 ),
                 Material(
-                  elevation: 4,
-                  borderRadius: BorderRadius.circular(32),
-                  child: SvgPicture.asset('lib/interface/assets/icons/main.svg', height: 64)
+                    elevation: 4,
+                    borderRadius: BorderRadius.circular(32),
+                    child: SvgPicture.asset('lib/interface/assets/icons/main.svg', height: 64)
                 ),
                 Container(
 
@@ -86,21 +73,15 @@ class _NavigationBarState extends State<NavigationBar> {
                           child: lightroom
                       ),
                       Container(
-                        padding: EdgeInsets.all(4),
+                          padding: EdgeInsets.all(4),
                           child: StreamBuilder(
                             stream: UserController.stream.stream,
-                            builder: (BuildContext context, AsyncSnapshot snapshot) {
-                              if (snapshot.hasData) {
-                                return BrAvatar(
-                                  src: snapshot.data.image,
-                                  elevation: 4,
-                                  size: 40,
-                                  radius: 20,
-                                );
-                              }
-
-                              return Container();
-                            },
+                            builder: (BuildContext context, AsyncSnapshot snapshot) =>  (snapshot.hasData) ? BrAvatar(
+                              src: snapshot.data.image,
+                              elevation: 4,
+                              size: 40,
+                              radius: 20,
+                            ) : Container(),
                           )
                       ),
                     ],

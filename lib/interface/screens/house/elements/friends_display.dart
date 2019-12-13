@@ -1,0 +1,92 @@
+import 'package:beautyreformatory/interface/components/br_avatar.dart';
+import 'package:beautyreformatory/services/middleware/friendship_middleware.dart';
+import 'package:beautyreformatory/services/models/friendship.dart';
+import 'package:beautyreformatory/services/models/user.dart';
+import 'package:flutter/material.dart';
+
+class FriendsDisplay extends StatelessWidget {
+  User user;
+
+  FriendsDisplay({Key key,
+    @required this.user
+  }): super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: (FriendshipMiddleware.listFromSave()),
+        builder: (BuildContext context, AsyncSnapshot<List<Friendship>> friendships) {
+          if(friendships.connectionState == ConnectionState.done) {
+            return Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+
+                children: <Widget>[
+                  Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+
+                      children: friendships.data.map((f) {
+                        if(f.initiator.id != user.id) {
+                          return Transform.translate(
+                            offset: Offset(-12.0 * (friendships.data.length - friendships.data.indexOf(f)), 0),
+
+                            child: BrAvatar(
+                              src: f.initiator.image,
+                              elevation: 2,
+                              frame: 4,
+                              stroke: Colors.white,
+                              size: 32,
+                              radius: 16,
+                            ),
+                          );
+                        } else {
+                          return Transform.translate(
+                            offset: Offset(-12.0 * (friendships.data.length - friendships.data.indexOf(f)), 0),
+
+                            child: BrAvatar(
+                              src: f.subject.image,
+                              elevation: 4,
+                              size: 32,
+                              frame: 4,
+                              stroke: Colors.white,
+                              radius: 16,
+                            ),
+                          );
+                        }
+                      }).toList().sublist(0, friendships.data.length > 4 ? 4 : friendships.data.length)
+                  ),
+                  Container(
+                      width: 80,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          (friendships.data.length > 1) ?
+                          Text(friendships.data.length.toString(),
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w400,
+                              )
+                          )
+                              : Container(),
+                          Text((friendships.data.length > 1) ? 'in circles' : 'none in circles',
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w400,
+                              )
+                          ),
+                        ],
+                      )
+                  )
+                ],
+              ),
+            );
+          }
+          return Container();
+        }
+    );
+  }
+}

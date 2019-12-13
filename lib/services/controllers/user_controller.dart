@@ -124,6 +124,8 @@ class UserController {
 
       return _request(data, end: endpoints[4], timeout: env.timeout.short).then((Response response) async {
         User user = await UserMiddleware.fromResponse(response);
+        await UserMiddleware.toSave(user);
+
         stream.sink.add(user);
         return user;
       });
@@ -141,6 +143,7 @@ class UserController {
         'token': token
       }, end: endpoints[3]).then((Response response) async {
         User user = await UserMiddleware.fromResponse(response);
+
         await UserMiddleware.toSave(user);
 
         return user;
@@ -168,6 +171,7 @@ class UserController {
       }, end: endpoints[1]).then((Response response) async {
         User user = await UserMiddleware.fromResponse(response);
         await UserMiddleware.toSave(user);
+
         stream.sink.add(user);
 
         return user;
@@ -188,6 +192,7 @@ class UserController {
       }, end: endpoints[0]).then((Response response) async {
         User user = (await UserMiddleware.fromResponse(response));
         await UserMiddleware.toSave(user);
+
         stream.sink.add(user);
 
         return user;

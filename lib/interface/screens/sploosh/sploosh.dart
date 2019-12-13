@@ -1,4 +1,4 @@
-import 'package:beautyreformatory/interface/elements/background.dart';
+import 'package:beautyreformatory/interface/screens/sploosh/elements/background.dart';
 import 'package:beautyreformatory/interface/screens/sploosh/login/login.dart';
 import 'package:beautyreformatory/interface/screens/sploosh/recover/recover.dart';
 import 'package:beautyreformatory/interface/screens/sploosh/signup/signup.dart';

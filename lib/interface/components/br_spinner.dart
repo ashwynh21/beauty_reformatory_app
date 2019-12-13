@@ -17,7 +17,7 @@ class BrSpinner extends StatefulWidget {
         ?
         state.animate(show)
         :
-        await Future.delayed(Duration(seconds: 3), () {
+        await Future.delayed(Duration(milliseconds: 480), () {
           state.animate(show);
         });
   }

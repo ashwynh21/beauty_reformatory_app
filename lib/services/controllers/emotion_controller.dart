@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:beautyreformatory/services/helpers/response.dart';
@@ -18,6 +19,15 @@ class EmotionController {
     'create',
   ];
 
+  static StreamController stream = new StreamController<Emotion>.broadcast();
+
+  EmotionController() {
+    EmotionMiddleware.listFromSave().then((List<Emotion> emotions) {
+      if(emotions != null && emotions.length > 0)
+        stream.sink.add(emotions[0]);
+    });
+  }
+
   Future<Emotion> create({
     @required String mood,
   }) async {
@@ -34,6 +44,7 @@ class EmotionController {
 
         Emotion emotion = await EmotionMiddleware.fromResponse(response);
         await EmotionMiddleware.toSave(emotion);
+        stream.sink.add(emotion);
 
         return emotion;
       });

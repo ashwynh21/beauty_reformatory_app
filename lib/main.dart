@@ -39,11 +39,6 @@ Future<void> main() async {
               .get(email: u.email, token: u.token);
           EmotionController()
               .get(email: u.email, token: u.token);
-        })
-        .catchError((error) {
-          /*
-          User will have to operate in offline mode
-           */
         });
 
     widget = new House();
@@ -75,22 +70,32 @@ class _BeautyReformatoryState extends State<BeautyReformatory> {
   // This widget is the root of your application.
   @override
   void initState() {
+    /*
+    Here we will be performing initializations that will require a context to
+    run on
+     */
+
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      color: resources.colors.primary,
+    return FutureBuilder<Object>(
+      future: resources.files.preload(context),
+      builder: (context, snapshot) {
+        return MaterialApp(
+          color: resources.colors.primary,
 
-      title: 'BR',
-      theme: ThemeData(
-        primarySwatch: resources.material_colors.primary,
-      ),
-      home: widget.home,
-      routes: <String, WidgetBuilder>{
-        '/sploosh': (BuildContext context) => new Sploosh(),
-        '/house': (BuildContext context) => new House(),
-      },
+          title: 'BR',
+          theme: ThemeData(
+            primarySwatch: resources.material_colors.primary,
+          ),
+          home: widget.home,
+          routes: <String, WidgetBuilder>{
+            '/sploosh': (BuildContext context) => new Sploosh(),
+            '/house': (BuildContext context) => new House(),
+          },
+        );
+      }
     );
   }
 

@@ -107,7 +107,7 @@ class _BrEditFieldDialogState extends State<BrEditFieldDialog> {
                                   return unload().then((value) {
                                     Navigator.of(context).pop();
                                     return false;
-                                  });
+                                  }).catchError((error) => Navigator.of(context).pop());
                                 },
                                 splashColor: resources.colors.primary.withOpacity(0.08),
                                 highlightColor: resources.colors.primary.withOpacity(0.24),
@@ -124,7 +124,7 @@ class _BrEditFieldDialogState extends State<BrEditFieldDialog> {
                                       Navigator.of(context).pop();
                                       return false;
                                     });
-                                  });
+                                  }).catchError((error) => Navigator.of(context).pop());
                                 },
                                 child: Text('SAVE',
                                   style: TextStyle(
@@ -147,8 +147,8 @@ class _BrEditFieldDialogState extends State<BrEditFieldDialog> {
             This padding is for lifting the widget when you open the keyboard
              */
             Padding(
-                padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom)
-            )
+              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom)
+            ),
           ],
         ),
       ),

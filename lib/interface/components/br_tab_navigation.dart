@@ -1,3 +1,4 @@
+import 'package:beautyreformatory/interface/screens/house/profile/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:beautyreformatory/utilities/resources.dart';
@@ -6,10 +7,14 @@ class BrTabNavigation extends StatefulWidget {
   List<String> tabs;
   int selected = 0;
 
-  BrTabNavigation({Key key,
-    @required this.tabs
+  void Function(BrTabNavigation, int) ontab;
 
-  }) : super(key: key);
+  BrTabNavigation({Key key,
+    @required this.tabs,
+    @required this.ontab,
+  }) {
+
+  }
 
   @override
   _BrTabNavigationState createState() => _BrTabNavigationState();
@@ -17,6 +22,16 @@ class BrTabNavigation extends StatefulWidget {
 
 class _BrTabNavigationState extends State<BrTabNavigation> {
 
+  @override
+  void initState() {
+    Profile.page_controller.stream.listen((value) {
+      setState(() {
+        widget.selected = value as int;
+      });
+    });
+
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,6 +51,7 @@ class _BrTabNavigationState extends State<BrTabNavigation> {
                     onTap: () {
                       setState(() {
                         widget.selected = 0;
+                        widget.ontab(widget, 0);
                       });
                     },
                     splashColor: resources.colors.primary.withOpacity(0.08),
@@ -63,6 +79,7 @@ class _BrTabNavigationState extends State<BrTabNavigation> {
                     onTap: () {
                       setState(() {
                         widget.selected = 1;
+                        widget.ontab(widget, 1);
                       });
                     },
                     splashColor: resources.colors.primary.withOpacity(0.08),
@@ -90,6 +107,7 @@ class _BrTabNavigationState extends State<BrTabNavigation> {
                     onTap: () {
                       setState(() {
                         widget.selected = 2;
+                        widget.ontab(widget, 1);
                       });
                     },
                     splashColor: resources.colors.primary.withOpacity(0.08),
