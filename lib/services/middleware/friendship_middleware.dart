@@ -5,6 +5,7 @@ import 'package:beautyreformatory/services/models/friendship.dart';
 import 'package:beautyreformatory/services/models/user.dart';
 import 'package:beautyreformatory/utilities/database.dart';
 import 'package:beautyreformatory/utilities/exceptions.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
 
@@ -20,6 +21,13 @@ class FriendshipMiddleware {
             throw ResponseException(response.message);
         } else {
             return (response.payload as Iterable).map((f) => Friendship.fromJson(f)).toList();
+        }
+    }
+    static Future<Friendship> fromResponse(Response response) async {
+        if(!response.result) {
+            throw ResponseException(response.message);
+        } else {
+            return Friendship.fromJson(response.payload);
         }
     }
 
@@ -38,7 +46,8 @@ class FriendshipMiddleware {
     static Future<List<Friendship>> listFromSave() {
         return _provider.open(env.database).then((_FriendshipProvider provider) {
             return provider.list();
-        });
+        }).catchError((error) =>
+            debugPrint(error.toString()));
     }
     static Future<void> listToSave(List<Friendship> friendships) {
         return _provider.open(env.database).then((_FriendshipProvider provider) {
@@ -60,6 +69,7 @@ class FriendshipMiddleware {
         });
     }
 }
+
 class _FriendshipProvider {
     String name = 'friendships';
     List<String> columns = [
@@ -84,8 +94,6 @@ class _FriendshipProvider {
         Map<String, dynamic> f = friendship.toSQL();
         f.remove('memberships');
         f.remove('messages');
-
-        f['date'] = jsonEncode(f['date']);
 
         try {
             friendship.id = (await db.insert(name, f)).toString();
@@ -115,12 +123,11 @@ class _FriendshipProvider {
         List<Map> friendships = await db.query(name);
 
         return friendships.map((friendship) {
-
             Friendship f = Friendship(
                 id: friendship[columns[0]],
                 initiator: User.fromJson(jsonDecode(friendship[columns[1]])),
                 subject: User.fromJson(jsonDecode(friendship[columns[2]])),
-                state: jsonDecode(friendship[columns[3]]) == null ? 0 : jsonDecode(friendship[columns[3]]),
+                state: friendship[columns[3]] == 'null' ? 0 : friendship[columns[3]],
                 date: jsonDecode(friendship[columns[4]]),
             );
 

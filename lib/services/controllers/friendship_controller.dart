@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:beautyreformatory/services/middleware/friendship_middleware.dart';
 import 'package:beautyreformatory/services/models/friendship.dart';
+import 'package:beautyreformatory/utilities/validators.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:beautyreformatory/utilities/environment.dart' as env;
@@ -16,8 +17,71 @@ class FriendshipController {
     'get',
     'getinitiated',
     'getsubjected',
+    'block',
+    'remove',
+    'add',
   ];
 
+  Future<Friendship> add({
+    @required email,
+    @required token,
+    @required subject
+  }) async {
+    if(token == null || email == null || subject == null  || !isEmail(email) || !isEmail(subject)) {
+      throw ValidationException('Oops, invalid field format!');
+    } else {
+      return _request(<String, String> {
+        'email': email,
+        'token': token,
+        'subject': subject,
+      }, end: endpoints[5]).then((Response response) async {
+        Friendship friends = await FriendshipMiddleware.fromResponse(response);
+        await FriendshipMiddleware.toSave(friends);
+
+        return friends;
+      });
+    }
+  }
+  Future<Friendship> remove({
+    @required email,
+    @required token,
+    @required subject
+  }) async {
+    if(token == null || email == null || subject == null  || !isEmail(email) || !isEmail(subject)) {
+      throw ValidationException('Oops, invalid field format!');
+    } else {
+      return _request(<String, String> {
+        'email': email,
+        'token': token,
+        'subject': subject,
+      }, end: endpoints[4]).then((Response response) async {
+        Friendship friends = await FriendshipMiddleware.fromResponse(response);
+        await FriendshipMiddleware.toSave(friends);
+
+        return friends;
+      });
+    }
+  }
+  Future<Friendship> block({
+    @required email,
+    @required token,
+    @required subject
+  }) async {
+    if(token == null || email == null || subject == null  || !isEmail(email) || !isEmail(subject)) {
+      throw ValidationException('Oops, invalid field format!');
+    } else {
+      return _request(<String, String> {
+        'email': email,
+        'token': token,
+        'subject': subject,
+      }, end: endpoints[3]).then((Response response) async {
+        Friendship friends = await FriendshipMiddleware.fromResponse(response);
+        await FriendshipMiddleware.toSave(friends);
+
+        return friends;
+      });
+    }
+  }
   Future<List<Friendship>> get({
     @required email,
     @required token,

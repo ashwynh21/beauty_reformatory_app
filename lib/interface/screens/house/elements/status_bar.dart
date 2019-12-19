@@ -1,5 +1,6 @@
 import 'package:beautyreformatory/interface/components/br_icon.dart';
 import 'package:beautyreformatory/interface/components/br_icon_button.dart';
+import 'package:beautyreformatory/interface/screens/house/messaging/messaging.dart';
 import 'package:beautyreformatory/utilities/resources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

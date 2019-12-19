@@ -3,7 +3,7 @@ import 'package:beautyreformatory/utilities/resources.dart';
 import 'package:flutter/material.dart';
 
 class BrEditFieldDialog extends StatefulWidget {
-  String placeholder, value, icon, instruction;
+  String placeholder, value, icon, instruction, submit;
   TextInputType type;
   bool obscure;
   Future Function(BrEditFieldDialog, String) callback;
@@ -15,7 +15,8 @@ class BrEditFieldDialog extends StatefulWidget {
     this.instruction,
     this.icon,
     this.type = TextInputType.text,
-    this.obscure = false
+    this.obscure = false,
+    this.submit = 'SAVE',
   }) : super(key: key);
 
   @override
@@ -126,7 +127,7 @@ class _BrEditFieldDialogState extends State<BrEditFieldDialog> {
                                     });
                                   }).catchError((error) => Navigator.of(context).pop());
                                 },
-                                child: Text('SAVE',
+                                child: Text(widget.submit,
                                   style: TextStyle(
                                     color: resources.colors.primary,
                                   ),

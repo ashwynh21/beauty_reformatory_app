@@ -9,10 +9,13 @@ import 'package:beautyreformatory/services/models/user.dart';
 import 'package:beautyreformatory/utilities/dialogs.dart';
 import 'package:beautyreformatory/utilities/exceptions.dart';
 import 'package:beautyreformatory/utilities/resources.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../main.dart';
 
 class Signup extends StatefulWidget {
   _SignupState state;
@@ -267,18 +270,26 @@ class _SignupState extends State<Signup> {
         click: (view) {
 
           loader.show(true);
-          (new UserController()).
-          create(
-            email: email.value,
-            password: password.value,
-            fullname: fullname.value,
-            mobile: mobile.value,
-            location: country.value,
-          ).
-          then((User user) {
-            loader.show(false).then((value){
+          FirebaseMessaging firebase = new FirebaseMessaging();
+
+          firebase.getToken().then((String token) {
+
+            (new UserController()).
+            create(
+              email: email.value,
+              password: password.value,
+              fullname: fullname.value,
+              mobile: mobile.value,
+              location: country.value,
+              firebase: token,
+            ).
+            then((User user) {
               if(user != null) {
-                widget.success(widget);
+                BeautyReformatory.initapp().then((User user) {
+                  loader.show(false).then((value){
+                    widget.success(widget);
+                  });
+                });
               }
             });
           }).catchError((error) {
@@ -301,20 +312,30 @@ class _SignupState extends State<Signup> {
         );
 
         loader.show(true);
-        _google.signIn().then((GoogleSignInAccount account) {
-          account.authentication.then((GoogleSignInAuthentication authentication) {
+        FirebaseMessaging firebase = new FirebaseMessaging();
 
-            (new AccountController()).
-            google_signup(email: account.email, token: authentication.accessToken).
-            then((Account account) {
-              loader.show(false).then((value){
+        firebase.getToken().then((String token) {
+          _google.signIn().then((GoogleSignInAccount account) {
+            account.authentication.then((GoogleSignInAuthentication authentication) {
+
+              (new AccountController()).
+              google_signup(
+                  email: account.email,
+                  token: authentication.accessToken,
+                  firebase: token,
+              ).
+              then((Account account) {
                 if(account != null) {
-                  widget.success(widget);
+                  BeautyReformatory.initapp().then((User user) {
+                    loader.show(false).then((value){
+                      widget.success(widget);
+                    });
+                  });
                 }
+              }).catchError((error) {
+                loader.show(false);
+                snack.show(error.message);
               });
-            }).catchError((error) {
-              loader.show(false);
-              snack.show(error.message);
             });
           });
         }).catchError((error) {
@@ -335,33 +356,42 @@ class _SignupState extends State<Signup> {
 
       click: (view) {
         loader.show(true);
-        final _facebook = FacebookLogin();
-        _facebook.logIn(['email']).then((FacebookLoginResult result) {
-          switch (result.status) {
-            case FacebookLoginStatus.loggedIn:
+        FirebaseMessaging firebase = new FirebaseMessaging();
 
-              (new AccountController()).
-              facebook_signup(token: result.accessToken.token).
-              then((Account account) {
-                loader.show(false).then((value){
+        firebase.getToken().then((String token) {
+          final _facebook = FacebookLogin();
+          _facebook.logIn(['email']).then((FacebookLoginResult result) {
+            switch (result.status) {
+              case FacebookLoginStatus.loggedIn:
+
+                (new AccountController()).
+                facebook_signup(
+                    token: result.accessToken.token,
+                    firebase: token,
+                ).
+                then((Account account) {
                   if(account != null) {
-                    widget.success(widget);
+                    BeautyReformatory.initapp().then((User user) {
+                      loader.show(false).then((value){
+                        widget.success(widget);
+                      });
+                    });
                   }
+                }).catchError((error) {
+                  loader.show(false);
+                  snack.show(error.message);
                 });
-              }).catchError((error) {
-                loader.show(false);
-                snack.show(error.message);
-              });
 
-              break;
-            case FacebookLoginStatus.cancelledByUser:
-              loader.show(false);
-              break;
-            case FacebookLoginStatus.error:
-              throw new ExternalException(result.errorMessage);
-            default:
-              throw new UnknownException('Oops, something went wrong!');
-          }
+                break;
+              case FacebookLoginStatus.cancelledByUser:
+                loader.show(false);
+                break;
+              case FacebookLoginStatus.error:
+                throw new ExternalException(result.errorMessage);
+              default:
+                throw new UnknownException('Oops, something went wrong!');
+            }
+          });
         }).catchError((error) {
           /**
            * Here we must figure a way to handle the APIExceptions that could occur

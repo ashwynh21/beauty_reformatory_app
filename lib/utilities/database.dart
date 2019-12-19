@@ -10,6 +10,9 @@ class database {
   Future Function(Database) emotions = (Database data) async {
     return db.open(data);
   };
+  Future Function(Database) abuse = (Database data) async {
+    return db.open(data);
+  };
 
   database();
 }
@@ -22,6 +25,11 @@ class _database {
   String emotions_name = 'emotions';
   List<String> emotions_columns = [
     'id', 'user', 'mood', 'date'
+  ];
+
+  String abuse_name = 'abuse';
+  List<String> abuse_columns = [
+    'id', 'user', 'description', 'date'
   ];
 
   Future<void> open(Database db) async {
@@ -40,6 +48,14 @@ class _database {
         ${emotions_columns[1]} text,
         ${emotions_columns[2]} text,
         ${emotions_columns[3]} text
+        )''');
+
+    await db.execute('''
+      create table $abuse_name( 
+        ${abuse_columns[0]} text primary key,
+        ${abuse_columns[1]} text,
+        ${abuse_columns[2]} text,
+        ${abuse_columns[3]} text
         )''');
   }
 }

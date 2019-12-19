@@ -12,6 +12,8 @@ class NavigationBar extends StatelessWidget {
 
   NavigationBar({Key key,
   }) {
+    UserController();
+
     _inputinit();
   }
 

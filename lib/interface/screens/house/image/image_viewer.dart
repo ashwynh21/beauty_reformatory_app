@@ -12,7 +12,7 @@ import 'package:photo_view/photo_view.dart';
 import 'package:beautyreformatory/utilities/dialogs.dart';
 
 class ImageViewer extends StatefulWidget {
-  bool selected;
+  bool selected, controls;
   String hero, src, title;
   Future Function(ImageViewer, String source, bool remove) callback;
 
@@ -22,6 +22,7 @@ class ImageViewer extends StatefulWidget {
     this.hero,
     this.callback,
     this.selected = false,
+    this.controls = true,
   }) : super(key: key);
 
   @override
@@ -39,6 +40,14 @@ class _ImageViewerState extends State<ImageViewer> {
     super.initState();
   }
   @override
+  void didChangeDependencies() {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
+      statusBarColor: Colors.black,
+      systemNavigationBarColor: Colors.black,
+    ));
+    super.didChangeDependencies();
+  }
+  @override
   void dispose() {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
       statusBarColor: resources.colors.primary,
@@ -52,7 +61,10 @@ class _ImageViewerState extends State<ImageViewer> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text(widget.title),
-        actions: <Widget>[BrIcon(
+        actions:
+        (widget.controls)
+        ?
+        <Widget>[BrIcon(
           src: 'lib/interface/assets/icons/camera.svg',
           color: Colors.white,
           click: (view) {
@@ -83,7 +95,9 @@ class _ImageViewerState extends State<ImageViewer> {
               },
             ),
           ),
-        ],
+        ]
+        :
+        <Widget>[Container()],
       ),
       body: Container(
         alignment: Alignment.center,

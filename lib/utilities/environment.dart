@@ -7,3 +7,7 @@ class timeout {
       normal = 8,
       long = 12;
 }
+
+final int blocked = 3,
+  removed = 5,
+  accepted = 1;

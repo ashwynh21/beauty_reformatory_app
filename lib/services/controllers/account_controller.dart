@@ -25,12 +25,14 @@ class AccountController {
 
   Future<Account> facebook_signin({
     @required token,
+    firebase,
   }) async {
     if(token == null) {
       throw ValidationException('Oops, invalid field format!');
     } else {
       return _request(<String, String> {
-        'token': token
+        'token': token,
+        'firebase': firebase,
       }, end: endpoints[3]).then((Response response) async {
         User user = await UserMiddleware.fromResponse(response);
         Account account = (await AccountMiddleware.fromResponse(response));
@@ -44,12 +46,14 @@ class AccountController {
   }
   Future<Account> facebook_signup({
     @required token,
+    firebase,
   }) async {
     if(token == null) {
       throw ValidationException('Oops, invalid field format!');
     } else {
       return _request(<String, String> {
-        'token': token
+        'token': token,
+        'firebase': firebase,
       }, end: endpoints[2]).then((Response response) async {
         User user = await UserMiddleware.fromResponse(response);
         Account account = (await AccountMiddleware.fromResponse(response));
@@ -64,13 +68,15 @@ class AccountController {
   Future<Account> google_signup({
     @required email,
     @required token,
+    firebase,
   }) async {
     if(email == null || token == null || !isEmail(email)) {
       throw ValidationException('Oops, invalid field format!');
     } else {
       return _request(<String, String> {
         'email': email,
-        'token': token
+        'token': token,
+        'firebase': firebase,
       }, end: endpoints[0]).then((Response response) async {
         User user = await UserMiddleware.fromResponse(response);
         Account account = (await AccountMiddleware.fromResponse(response));
@@ -85,13 +91,15 @@ class AccountController {
   Future<Account> google_signin({
     @required email,
     @required token,
+    firebase,
   }) async {
     if(email == null || token == null || !isEmail(email)) {
       throw ValidationException('Oops, invalid field format!');
     } else {
       return _request(<String, String> {
         'email': email,
-        'token': token
+        'token': token,
+        'firebase': firebase,
       }, end: endpoints[1]).then((Response response) async {
         User user = await UserMiddleware.fromResponse(response);
         Account account = (await AccountMiddleware.fromResponse(response));

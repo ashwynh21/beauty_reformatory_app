@@ -40,9 +40,13 @@ class _StatusUpdateState extends State<StatusUpdate> {
                   child: Tooltip(
                       waitDuration: Duration.zero,
                       decoration: BoxDecoration(
-                          color: resources.colors.primary.withOpacity(0.32)
+                        color: resources.colors.primary.withOpacity(0.32),
+                        borderRadius: BorderRadius.circular(4)
                       ),
-                      message: 'status',
+                      message: 'describe who you are.',
+                      textStyle: TextStyle(
+                          color: Colors.white
+                      ),
                       child: BrIcon(
                         src: 'lib/interface/assets/icons/status.svg',
                         color: Colors.black26,

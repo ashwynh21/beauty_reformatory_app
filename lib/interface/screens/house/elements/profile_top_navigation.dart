@@ -1,5 +1,6 @@
 import 'package:beautyreformatory/interface/components/br_tab_navigation.dart';
 import 'package:beautyreformatory/interface/screens/house/elements/handle_editor.dart';
+import 'package:beautyreformatory/interface/screens/house/profile/profile.dart';
 import 'package:beautyreformatory/services/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -71,6 +72,7 @@ class ProfileTopNavigation extends StatelessWidget {
 
                     child: BrTabNavigation(
                       tabs: ['profile info.', 'posts & content', 'goals & affirmations'],
+                      stream: Profile.page_controller.stream,
                       ontab: (view, index) => ontab(this, index),
                     )
                 )

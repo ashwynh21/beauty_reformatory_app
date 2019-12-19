@@ -19,6 +19,7 @@ class UserController {
     'profile/get',
     'profile/update',
     'refresh',
+    'find',
   ];
   /*
   Here we are going to introduce a stream controller. We're doing this because
@@ -57,6 +58,26 @@ class UserController {
    * they will require a certain input from this layer, we then need to validate
    * this input.
    */
+  Future<List<Map>> find({
+    @required email,
+    @required token,
+    @required find,
+  }) async {
+    if(email == null || token == null || find == null || (!isEmail(email))) {
+      throw ValidationException('Oops, invalid fields given!');
+    } else {
+      return _request(<String, String> {
+        'email': email,
+        'token': token,
+        'find': find,
+      }, end: endpoints[6], timeout: env.timeout.long).then((Response response) {
+        if(response.result) {
+          return (response.payload as List).map((m) => m as Map).toList();
+        }
+        throw ResponseException(response.message);
+      });
+    }
+  }
   Future<User> refresh({
     @required email,
     @required token,
@@ -155,7 +176,8 @@ class UserController {
     @required password,
     @required fullname,
     @required location,
-    @required mobile
+    @required mobile,
+    firebase,
   }) async {
     if(email == null || password == null || fullname == null || location == null || mobile == null
         ||
@@ -168,6 +190,7 @@ class UserController {
         'fullname': fullname,
         'mobile': mobile,
         'location': location,
+        'firebase': firebase,
       }, end: endpoints[1]).then((Response response) async {
         User user = await UserMiddleware.fromResponse(response);
         await UserMiddleware.toSave(user);
@@ -182,13 +205,15 @@ class UserController {
   Future<User> authenticate({
     @required email,
     @required password,
+    firebase,
   }) async {
     if(email == null || password == null || !isEmail(email) || !isPassword(password)) {
       throw ValidationException('Oops, invalid field format!');
     } else {
       return _request(<String, String> {
         'email': email,
-        'password': password
+        'password': password,
+        'firebase': firebase,
       }, end: endpoints[0]).then((Response response) async {
         User user = (await UserMiddleware.fromResponse(response));
         await UserMiddleware.toSave(user);

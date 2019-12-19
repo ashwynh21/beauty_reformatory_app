@@ -5,7 +5,6 @@ import 'package:beautyreformatory/interface/components/br_icon_button.dart';
 import 'package:beautyreformatory/interface/dialogs/br_select_image_source_dialog.dart';
 import 'package:beautyreformatory/interface/screens/house/image/image_viewer.dart';
 import 'package:beautyreformatory/services/controllers/user_controller.dart';
-import 'package:beautyreformatory/services/middleware/user_middleware.dart';
 import 'package:beautyreformatory/services/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:beautyreformatory/utilities/dialogs.dart';
@@ -42,30 +41,31 @@ class _AvatarEditorState extends State<AvatarEditor> {
                       loader.show(true);
                     });
 
-                    widget.user.image = (remove) ? base64Encode((await DefaultAssetBundle.of(context).load('lib/interface/assets/images/default_avatar.png')).buffer.asUint8List()) : source;
+                    (DefaultAssetBundle.of(context).load('lib/interface/assets/images/default_avatar.png')).then((data) {
+                      widget.user.image = (remove) ? base64Encode(data.buffer.asUint8List()) : source;
 
-                    UserController().update(
-                      email: widget.user.email,
-                      token: widget.user.token,
-                      image: (remove) ? '' : widget.user.image,
-                    ).then((User user) async {
-                      if(user != null){
-
-                        snack.show('Hey, your profile has been updated!');
+                      UserController().update(
+                        email: widget.user.email,
+                        token: widget.user.token,
+                        image: (remove) ? '' : widget.user.image,
+                      ).then((User user) async {
+                        if(user != null){
+                          snack.show('Hey, your profile has been updated!');
+                          setState(() {
+                            widget.user = user;
+                            loader.show(false);
+                          });
+                        }
+                      }).catchError((error) {
+                        snack.show(error.message);
                         setState(() {
-                          widget.user = user;
                           loader.show(false);
                         });
-                      }
-                    }).catchError((error) {
-                      snack.show(error.message);
-                      setState(() {
-                        loader.show(false);
                       });
                     });
                   },
                 ),
-                transitionDuration: Duration(milliseconds: 512),
+                transitionDuration: Duration(milliseconds: 440),
               ),
             );
           },
@@ -96,25 +96,26 @@ class _AvatarEditorState extends State<AvatarEditor> {
                       loader.show(true);
                     });
 
-                    widget.user.image = (remove) ? base64Encode((await DefaultAssetBundle.of(context).load('lib/interface/assets/images/default_avatar.png')).buffer.asUint8List()) :  source;
+                    (DefaultAssetBundle.of(context).load('lib/interface/assets/images/default_avatar.png')).then((data) {
+                      widget.user.image = (remove) ? base64Encode(data.buffer.asUint8List()) : source;
 
-                    UserController().update(
-                      email: widget.user.email,
-                      token: widget.user.token,
-                      image: (remove) ? '' : widget.user.image,
-                    ).then((User user) async {
-                      if(user != null){
-
-                        snack.show('Hey, your profile has been updated!');
+                      UserController().update(
+                        email: widget.user.email,
+                        token: widget.user.token,
+                        image: (remove) ? '' : widget.user.image,
+                      ).then((User user) async {
+                        if(user != null){
+                          snack.show('Hey, your profile has been updated!');
+                          setState(() {
+                            widget.user = user;
+                            loader.show(false);
+                          });
+                        }
+                      }).catchError((error) {
+                        snack.show(error.message);
                         setState(() {
-                          widget.user = user;
                           loader.show(false);
                         });
-                      }
-                    }).catchError((error) {
-                      snack.show(error.message);
-                      setState(() {
-                        loader.show(false);
                       });
                     });
                   }

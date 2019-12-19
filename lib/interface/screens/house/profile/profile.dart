@@ -68,15 +68,11 @@ class Profile extends StatelessWidget {
                             ),
 
                             FutureBuilder(
-                                future: EmotionMiddleware.listFromSave().then((List<Emotion> emotions) => emotions[0]),
+                                future: EmotionMiddleware.firstFromSave(),
                                 builder: (context, emotion) {
-                                  if(emotion.hasData) {
-                                    return EmotionsRating(
-                                      emotion: emotion.data,
-                                    );
-                                  }
-
-                                  return Container();
+                                  return EmotionsRating(
+                                    emotion: emotion.data,
+                                  );
                                 }
                             )
                           ],
@@ -101,6 +97,7 @@ class Profile extends StatelessWidget {
                   if(user.hasData) {
                     return ProfileTopNavigation(
                       user: user.data,
+                      tab: tab_controller.page.round(),
                       ontab: (view, index) {
                         tab_controller.animateToPage(index, duration: Duration(milliseconds: 480), curve: Curves.easeOutCubic);
                       },

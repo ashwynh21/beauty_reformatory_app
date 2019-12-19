@@ -81,6 +81,7 @@ class _BrInputState extends State<BrInput> {
               direction: Axis.horizontal,
 
               children: <Widget>[
+                (widget.icon != null) ?
                 Container(
                   child: Align(
                     alignment: Alignment.center,
@@ -90,7 +91,7 @@ class _BrInputState extends State<BrInput> {
                         child: icon(widget.icon)
                     ),
                   ),
-                ),
+                ) : Container(),
 
                 Expanded(
                   flex: (widget.type == TextInputType.visiblePassword) ? 7 : 9,
@@ -112,6 +113,7 @@ class _BrInputState extends State<BrInput> {
                         )
                       ),
                       cursorWidth: 1.5,
+                      cursorColor: resources.colors.primary,
                       textInputAction: widget.action,
                       keyboardType: widget.type,
                       autofocus: widget.autofocus,

@@ -26,11 +26,12 @@ class User {
   List<Post> posts; // List<Post>
   String secret; // String
   String state; // String
+  String firebase;
   String status; // String
   List<Friendship> subjected; // List<Friendship>
   String token; // String
 
-  User({this.accounts, this.circles, this.comments, this.date, this.email, this.emotions, this.fullname, this.handle, this.id, this.image, this.initiated, this.journal, this.location, this.mobile, this.password, this.posts, this.secret, this.state, this.status, this.subjected, this.token});
+  User({this.accounts, this.firebase, this.circles, this.comments, this.date, this.email, this.emotions, this.fullname, this.handle, this.id, this.image, this.initiated, this.journal, this.location, this.mobile, this.password, this.posts, this.secret, this.state, this.status, this.subjected, this.token});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -47,6 +48,7 @@ class User {
       id: json['id'],
       image: json['image'],
       journal: json['journal'],
+      firebase: json['firebase'],
       location: json['location'],
       mobile: json['mobile'],
       password: json['password'],
@@ -73,6 +75,7 @@ class User {
     data['id'] = this.id;
     data['image'] = this.image;
     data['journal'] = this.journal;
+    data['firebase'] = this.firebase;
     data['location'] = this.location;
     data['mobile'] = this.mobile;
     data['password'] = this.password;

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:beautyreformatory/interface/components/br_avatar.dart';
 import 'package:beautyreformatory/services/middleware/friendship_middleware.dart';
 import 'package:beautyreformatory/services/models/friendship.dart';
@@ -16,7 +18,7 @@ class FriendsDisplay extends StatelessWidget {
     return FutureBuilder(
         future: (FriendshipMiddleware.listFromSave()),
         builder: (BuildContext context, AsyncSnapshot<List<Friendship>> friendships) {
-          if(friendships.connectionState == ConnectionState.done) {
+          if(friendships.connectionState == ConnectionState.done && friendships.hasData) {
             return Container(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -25,11 +27,12 @@ class FriendsDisplay extends StatelessWidget {
                 children: <Widget>[
                   Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.end,
 
                       children: friendships.data.map((f) {
                         if(f.initiator.id != user.id) {
                           return Transform.translate(
-                            offset: Offset(-12.0 * (friendships.data.length - friendships.data.indexOf(f)), 0),
+                            offset: Offset(16 + 20.0 * - (friendships.data.indexOf(f)), 0),
 
                             child: BrAvatar(
                               src: f.initiator.image,
@@ -42,7 +45,7 @@ class FriendsDisplay extends StatelessWidget {
                           );
                         } else {
                           return Transform.translate(
-                            offset: Offset(-12.0 * (friendships.data.length - friendships.data.indexOf(f)), 0),
+                            offset: Offset(16 + 20.0 * - (friendships.data.indexOf(f)), 0),
 
                             child: BrAvatar(
                               src: f.subject.image,
@@ -71,7 +74,7 @@ class FriendsDisplay extends StatelessWidget {
                               )
                           )
                               : Container(),
-                          Text((friendships.data.length > 1) ? 'in circles' : 'none in circles',
+                          Text((friendships.data.length > 0) ? 'in circles' : 'none in circles',
                               style: TextStyle(
                                 color: Colors.black54,
                                 fontSize: 11,

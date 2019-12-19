@@ -50,6 +50,11 @@ class EmotionMiddleware {
             return _provider.update(emotion);
         });
     }
+    static Future<Emotion> firstFromSave() {
+        return _provider.open(env.database).then((_EmotionsProvider provider) {
+            return provider.first();
+        });
+    }
     static Future<List<Emotion>> listFromSave() {
         return _provider.open(env.database).then((_EmotionsProvider provider) {
             return provider.list();
@@ -112,6 +117,23 @@ class _EmotionsProvider {
         return emotions;
     }
 
+    Future<Emotion> first() async {
+        List<Map> maps = await db.query(name,
+            columns: columns,
+            orderBy: 'date DESC',
+            limit: 1);
+        if (maps.length > 0) {
+            Emotion f = Emotion(
+                id: maps[0][columns[0]],
+                mood: maps[0][columns[2]],
+                user: (maps[0].containsKey(columns[1]) && maps[0][columns[1]] != null) ? User.fromJson(jsonDecode(maps[0][columns[1]])) : null,
+                date: jsonDecode(maps[0][columns[3]]),
+            );
+
+            return f;
+        }
+        return null;
+    }
     Future<Emotion> get(String id) async {
         List<Map> maps = await db.query(name,
             columns: columns,

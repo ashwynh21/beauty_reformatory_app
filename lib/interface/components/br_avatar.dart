@@ -8,6 +8,8 @@ class BrAvatar extends StatefulWidget {
   String src, hero;
   Color stroke;
 
+  void Function(BrAvatar) click;
+
   BrAvatar({Key key,
     @required this.src,
     this.size,
@@ -16,6 +18,7 @@ class BrAvatar extends StatefulWidget {
     this.stroke = Colors.white,
     this.radius = 0,
     this.hero,
+    this.click,
   }) : super(key: key);
 
   @override
@@ -47,19 +50,24 @@ class _BrAvatarState extends State<BrAvatar> {
 
             child: ClipRRect(
               borderRadius: BorderRadius.circular(widget.radius),
-              child: Container(
-                height: widget.size - widget.frame,
-                width: widget.size - widget.frame,
-                alignment: Alignment.center,
+              child: Material(
+                  child: InkWell(
+                    onTap: () => widget.click != null ? widget.click(widget) : false,
+                    child: Container(
+                      height: widget.size - widget.frame,
+                      width: widget.size - widget.frame,
+                      alignment: Alignment.center,
 
-                child: Container(
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                          image: image(widget.src)
-                      )
-                  ),
-                ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: image(widget.src)
+                            )
+                        ),
+                      ),
+                    ),
+                  )
               ),
             ),
           ),
@@ -72,21 +80,26 @@ class _BrAvatarState extends State<BrAvatar> {
       color: Colors.transparent,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(widget.radius),
-        child: Container(
-          height: widget.size,
-          width: widget.size,
-          alignment: Alignment.center,
-          color: widget.stroke,
-
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(widget.radius),
+        child: Material(
+          child: InkWell(
+            onTap: () => widget.click != null ? widget.click(widget) : false,
             child: Container(
-              height: widget.size - widget.frame,
-              width: widget.size - widget.frame,
+              height: widget.size,
+              width: widget.size,
               alignment: Alignment.center,
-              child: Container(
-                alignment: Alignment.center,
-                child: herowidget(),
+              color: widget.stroke,
+
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(widget.radius),
+                child: Container(
+                  height: widget.size - widget.frame,
+                  width: widget.size - widget.frame,
+                  alignment: Alignment.center,
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: herowidget(),
+                  ),
+                ),
               ),
             ),
           ),
@@ -104,6 +117,7 @@ class _BrAvatarState extends State<BrAvatar> {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           image: DecorationImage(
+            fit: BoxFit.cover,
             image: image(widget.src)
           )
         ),

@@ -12,6 +12,9 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
+import '../../../../main.dart';
 
 class Login extends StatefulWidget {
   _LoginState state;
@@ -239,18 +242,32 @@ class _LoginState extends State<Login> {
         background: resources.colors.primary,
         click: (view) async {
           loader.show(true);
-          (new UserController()).
-          authenticate(email: username.value, password: password.value).
-          then((User user) {
-            loader.show(false).then((value){
-              if(user != null) {
-                Navigator.of(context).pushReplacementNamed('/house');
-              }
+          FirebaseMessaging firebase = new FirebaseMessaging();
+
+          firebase.getToken().then((String token) {
+
+            (new UserController()).
+            authenticate(
+                email: username.value,
+                password: password.value,
+                firebase: token,
+            ).
+            then((User user) {
+              loader.show(false).then((value){
+                if(user != null) {
+                  BeautyReformatory.initapp().then((User user) {
+                    loader.show(false).then((value){
+                      Navigator.of(context).pushReplacementNamed('/house');
+                    });
+                  });
+                }
+              });
             });
           }).catchError((error) {
             snack.show(error.message);
             loader.show(false);
           });
+
         }
     );
     google = BrIconButton(
@@ -267,21 +284,31 @@ class _LoginState extends State<Login> {
         );
 
         loader.show(true);
-        _google.signIn().then((GoogleSignInAccount account) {
-          account.authentication.then((GoogleSignInAuthentication authentication) {
+        FirebaseMessaging firebase = new FirebaseMessaging();
 
-            (new AccountController()).
-            google_signin(email: account.email, token: authentication.accessToken).
+        firebase.getToken().then((String token) {
+          _google.signIn().then((GoogleSignInAccount account) {
+            account.authentication.then((GoogleSignInAuthentication authentication) {
+
+              (new AccountController()).
+              google_signin(
+                  email: account.email,
+                  token: authentication.accessToken,
+                  firebase: token,
+              ).
               then((Account account) {
-                loader.show(false).then((value){
-                  if(account != null) {
-                    Navigator.of(context).pushReplacementNamed('/house');
-                  }
-                });
+                if(account != null) {
+                  BeautyReformatory.initapp().then((User user) {
+                    loader.show(false).then((value){
+                      Navigator.of(context).pushReplacementNamed('/house');
+                    });
+                  });
+                }
               }).catchError((error) {
                 loader.show(false);
                 snack.show(error.toString());
               });
+            });
           });
         }).catchError((error) {
           /**
@@ -302,33 +329,45 @@ class _LoginState extends State<Login> {
       click: (view) {
 
         loader.show(true);
-        final _facebook = FacebookLogin();
-        _facebook.logIn(['email']).then((FacebookLoginResult result) {
-          switch (result.status) {
-            case FacebookLoginStatus.loggedIn:
+        FirebaseMessaging firebase = new FirebaseMessaging();
 
-              (new AccountController()).
-              facebook_signin(token: result.accessToken.token).
-              then((Account account) {
-                loader.show(false).then((value){
-                  if(account != null) {
-                    Navigator.of(context).pushReplacementNamed('/house');
-                  }
+        firebase.getToken().then((String token) {
+
+          final _facebook = FacebookLogin();
+          _facebook.logIn(['email']).then((FacebookLoginResult result) {
+            switch (result.status) {
+              case FacebookLoginStatus.loggedIn:
+
+                (new AccountController()).
+                facebook_signin(
+                    token: result.accessToken.token,
+                    firebase: token,
+                ).
+                then((Account account) {
+                  loader.show(false).then((value){
+                    if(account != null) {
+                      BeautyReformatory.initapp().then((User user) {
+                        loader.show(false).then((value){
+                          Navigator.of(context).pushReplacementNamed('/house');
+                        });
+                      });
+                    }
+                  });
+                }).catchError((error) {
+                  loader.show(false);
+                  snack.show(error.toString());
                 });
-              }).catchError((error) {
-                loader.show(false);
-                snack.show(error.toString());
-              });
 
-              break;
-            case FacebookLoginStatus.cancelledByUser:
-              loader.show(false);
-              break;
-            case FacebookLoginStatus.error:
-              throw new ExternalException(result.errorMessage);
-            default:
-              throw new UnknownException('Oops, something went wrong!');
-          }
+                break;
+              case FacebookLoginStatus.cancelledByUser:
+                loader.show(false);
+                break;
+              case FacebookLoginStatus.error:
+                throw new ExternalException(result.errorMessage);
+              default:
+                throw new UnknownException('Oops, something went wrong!');
+            }
+          });
         }).catchError((error) {
           /**
            * Here we must figure a way to handle the APIExceptions that could occur
@@ -338,6 +377,7 @@ class _LoginState extends State<Login> {
           loader.show(false);
           snack.show(error.toString());
         });
+
       },
     );
   }

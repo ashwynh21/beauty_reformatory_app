@@ -6,15 +6,18 @@ import 'package:beautyreformatory/utilities/resources.dart';
 class BrTabNavigation extends StatefulWidget {
   List<String> tabs;
   int selected = 0;
+  double width, height;
 
   void Function(BrTabNavigation, int) ontab;
+  Stream stream;
 
   BrTabNavigation({Key key,
     @required this.tabs,
     @required this.ontab,
-  }) {
-
-  }
+    @required this.stream,
+    this.width,
+    this.height = 36,
+  }) : super(key: key);
 
   @override
   _BrTabNavigationState createState() => _BrTabNavigationState();
@@ -24,10 +27,12 @@ class _BrTabNavigationState extends State<BrTabNavigation> {
 
   @override
   void initState() {
-    Profile.page_controller.stream.listen((value) {
-      setState(() {
-        widget.selected = value as int;
-      });
+    widget.stream.listen((value) {
+      if(mounted) {
+        setState(() {
+          widget.selected = value as int;
+        });
+      }
     });
 
     super.initState();
@@ -35,7 +40,7 @@ class _BrTabNavigationState extends State<BrTabNavigation> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 36,
+      height: widget.height,
 
       child: Column(
         children: <Widget>[
@@ -46,7 +51,7 @@ class _BrTabNavigationState extends State<BrTabNavigation> {
               Expanded(
                 flex: 2,
                 child: Material(
-                  color: Colors.white,
+                  color: Colors.transparent,
                   child: InkWell(
                     onTap: () {
                       setState(() {
@@ -58,7 +63,7 @@ class _BrTabNavigationState extends State<BrTabNavigation> {
                     highlightColor: resources.colors.primary.withOpacity(0.24),
                     child: Container(
                       alignment: Alignment.center,
-                      height: 32,
+                      height: widget.height - 4,
                       child: Text(
                         widget.tabs[0],
                         style: TextStyle(
@@ -74,7 +79,7 @@ class _BrTabNavigationState extends State<BrTabNavigation> {
               Expanded(
                 flex: 2,
                 child: Material(
-                  color: Colors.white,
+                  color: Colors.transparent,
                   child: InkWell(
                     onTap: () {
                       setState(() {
@@ -86,7 +91,7 @@ class _BrTabNavigationState extends State<BrTabNavigation> {
                     highlightColor: resources.colors.primary.withOpacity(0.24),
                     child: Container(
                       alignment: Alignment.center,
-                      height: 32,
+                      height: widget.height - 4,
                       child: Text(
                         widget.tabs[1],
                         style: TextStyle(
@@ -102,7 +107,7 @@ class _BrTabNavigationState extends State<BrTabNavigation> {
               Expanded(
                 flex: 3,
                 child: Material(
-                  color: Colors.white,
+                  color: Colors.transparent,
                   child: InkWell(
                     onTap: () {
                       setState(() {
@@ -114,7 +119,7 @@ class _BrTabNavigationState extends State<BrTabNavigation> {
                     highlightColor: resources.colors.primary.withOpacity(0.24),
                     child: Container(
                       alignment: Alignment.center,
-                      height: 32,
+                      height: widget.height - 4,
                       child: Text(
                         widget.tabs[2],
                         style: TextStyle(
@@ -173,7 +178,7 @@ class _BrTabNavigationState extends State<BrTabNavigation> {
         break;
     }
 
-    return MediaQuery.of(context).size.width * flex / 7.0;
+    return ((widget.width == null) ? MediaQuery.of(context).size.width : widget.width) * flex / 7.0;
   }
   double position(BuildContext context, int index) {
     int flex = 7;
@@ -189,6 +194,6 @@ class _BrTabNavigationState extends State<BrTabNavigation> {
         break;
     }
 
-    return MediaQuery.of(context).size.width * (7 - flex) / 7.0;
+    return ((widget.width == null) ? MediaQuery.of(context).size.width : widget.width) * (7 - flex) / 7.0;
   }
 }

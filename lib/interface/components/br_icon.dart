@@ -22,7 +22,7 @@ class BrIcon extends StatefulWidget {
 }
 
 class _BrIconState extends State<BrIcon> {
-  String animation = 'in';
+  String animation = 'idle';
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,9 @@ class _BrIconState extends State<BrIcon> {
               padding: EdgeInsets.all(9),
               splashColor: (widget.color != null) ? widget.color.withOpacity(0.12) : null,
               highlightColor: (widget.color != null) ? widget.color.withOpacity(0.24) : null,
+
               onPressed: () {
+                widget.click(widget);
                 if (widget.src.substring(widget.src.lastIndexOf('.') + 1, widget.src.length) == 'flr') {
                   setState(() {
                     animation = 'active';
@@ -51,7 +53,6 @@ class _BrIconState extends State<BrIcon> {
                     });
                   });
                 }
-                widget.click(widget);
               },
               child: Container(child: icon(widget.src)),
             ),
