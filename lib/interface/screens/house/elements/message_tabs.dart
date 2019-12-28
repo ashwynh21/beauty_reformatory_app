@@ -11,7 +11,7 @@ class MessageTabs extends StatelessWidget {
 
   MessageTabs({Key key,
     @required this.ontab,
-    this.tab = 0,
+    @required this.tab,
   }) : super(key: key);
 
   @override
@@ -51,12 +51,13 @@ class MessageTabs extends StatelessWidget {
                       stream: Messaging.page_controller.stream,
                       ontab: (view, index) => ontab(this, index),
                       width: (MediaQuery.of(context).size.width - 8) * 9 / 10,
-                      height: 52
+                      height: 52,
+                      selected: tab,
                   ),
                 ),
                 Expanded(
                     flex: 1,
-                    child: Container(
+                  child: Container(
                     child: BrIcon(
                         src: 'lib/interface/assets/icons/search.svg',
                         color: resources.colors.primary,

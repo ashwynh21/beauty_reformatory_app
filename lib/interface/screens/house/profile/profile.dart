@@ -5,7 +5,7 @@ import 'package:beautyreformatory/interface/screens/house/elements/profile_top_n
 import 'package:beautyreformatory/interface/screens/house/elements/status_update.dart';
 import 'package:beautyreformatory/services/middleware/emotion_middleware.dart';
 import 'package:beautyreformatory/services/middleware/user_middleware.dart';
-import 'package:beautyreformatory/services/models/emotion.dart';
+import 'package:beautyreformatory/utilities/dialogs.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatelessWidget {
@@ -38,6 +38,7 @@ class Profile extends StatelessWidget {
       color: Colors.white,
 
       child: Stack(
+        alignment: Alignment.topCenter,
         children: <Widget>[
           PageView.builder(
             itemCount: 3,
@@ -108,6 +109,9 @@ class Profile extends StatelessWidget {
                 }
               )
           ),
+
+          dialogs.loader,
+          dialogs.snack,
         ],
       ),
     );

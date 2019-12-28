@@ -55,7 +55,7 @@ class _FullnameEditorState extends State<FullnameEditor> {
                       instruction: 'Enter your fullname',
                       callback: (BrEditFieldDialog dialog, String value) {
                         setState(() {
-                          loader.show(true);
+                          dialogs.loader.show(true);
                         });
 
                         return UserController().update(
@@ -64,16 +64,16 @@ class _FullnameEditorState extends State<FullnameEditor> {
                           fullname: value,
                         ).then((User user) {
                           if(user != null){
-                            snack.show('Hey, your profile has been updated!');
+                            dialogs.snack.show('Hey, your profile has been updated!');
                             setState(() {
                               widget.user = user;
-                              loader.show(false);
+                              dialogs.loader.show(false);
                             });
                           }
                         }).catchError((error) {
-                          snack.show(error.message);
+                          dialogs.snack.show(error.message);
                           setState(() {
-                            loader.show(false);
+                            dialogs.loader.show(false);
                           });
                         });
                       }

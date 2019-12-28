@@ -67,7 +67,7 @@ class _StatusBarState extends State<StatusBar> {
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 14,
-                          fontFamily: 'Jandys Dua',
+                          fontFamily: 'Handlee',
                           color: resources.colors.primary
                         ),
                       )),

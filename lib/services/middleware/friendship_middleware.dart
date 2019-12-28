@@ -36,6 +36,7 @@ class FriendshipMiddleware {
             return provider.get(id);
         });
     }
+    
     static Future<void> toSave(Friendship friendship) async {
         return _provider.open(env.database).then((_FriendshipProvider provider) {
             return provider.insert(friendship);
@@ -125,8 +126,8 @@ class _FriendshipProvider {
         return friendships.map((friendship) {
             Friendship f = Friendship(
                 id: friendship[columns[0]],
-                initiator: User.fromJson(jsonDecode(friendship[columns[1]])),
-                subject: User.fromJson(jsonDecode(friendship[columns[2]])),
+                subject: User.fromJson(jsonDecode(friendship[columns[1]])),
+                initiator: User.fromJson(jsonDecode(friendship[columns[2]])),
                 state: friendship[columns[3]] == 'null' ? 0 : friendship[columns[3]],
                 date: jsonDecode(friendship[columns[4]]),
             );

@@ -1,24 +1,26 @@
 import 'dart:async';
 
-import 'package:beautyreformatory/interface/screens/house/elements/user_list_item.dart';
 import 'package:beautyreformatory/services/middleware/friendship_middleware.dart';
 import 'package:beautyreformatory/services/middleware/user_middleware.dart';
 import 'package:beautyreformatory/services/models/friendship.dart';
 import 'package:beautyreformatory/services/models/user.dart';
-import 'package:beautyreformatory/utilities/dialogs.dart';
-import 'package:beautyreformatory/utilities/environment.dart';
-import 'package:beautyreformatory/utilities/resources.dart';
 import 'package:flutter/material.dart';
+
+import 'package:beautyreformatory/utilities/dialogs.dart';
+import 'package:beautyreformatory/utilities/resources.dart';
+
 import 'package:rxdart/rxdart.dart';
 
-class Friends extends StatefulWidget {
-  static StreamController friends_controller = new BehaviorSubject<List<Friendship>>();
+class Influencers extends StatefulWidget {
+  static StreamController influencers_controller = new BehaviorSubject<List<Friendship>>();
+
+  Influencers({Key key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _FriendsState();
+  _InfluencersState createState() => _InfluencersState();
 }
 
-class _FriendsState extends State<Friends> {
+class _InfluencersState extends State<Influencers> {
   User user;
 
   @override
@@ -37,26 +39,8 @@ class _FriendsState extends State<Friends> {
           children: <Widget>[
             Container(
                 child: StreamBuilder<List<Friendship>>(
-                    stream: Friends.friends_controller.stream.asBroadcastStream(),
+                    stream: Influencers.influencers_controller.stream.asBroadcastStream(),
                     builder: (context, snapshot) {
-                      if(snapshot.hasData && (snapshot.data..removeWhere((e) => (e.state != accepted))).length > 0) {
-                        return Container(
-                          margin: EdgeInsets.only(top: 56),
-                          child: Column(
-                            children: (snapshot.data..removeWhere((e) => (e.state != accepted))).map((m) {
-                              User friend = (m.initiator.id == user.id) ? m.subject : m.initiator;
-
-                              return UserListItem(
-                                  state: m.state,
-                                  user: friend,
-                                  callback: (view) {
-                                    _initfriends();
-                                  },
-                              );
-                            }).toList(),
-                          ),
-                        );
-                      }
 
                       /*
                       Since this is the default view of the inbox here we have the opportunity
@@ -68,16 +52,16 @@ class _FriendsState extends State<Friends> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 160),
+                                  margin: EdgeInsets.symmetric(horizontal: 144),
                                   child: Opacity(
-                                      opacity: 0.64,
-                                      child: Image.asset('lib/interface/assets/images/love.png')
+                                      opacity: 0.32,
+                                      child: Image.asset('lib/interface/assets/images/influencer.png')
                                   )
                               ),
                               Container(
                                   margin: EdgeInsets.symmetric(horizontal: 80),
                                   child: Text(
-                                    'Add your friends and family by sending the people you love friend requests.',
+                                    'Find your favorite content influencers and have conversations about great products that can change and improve your lifestyle.',
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w300,
@@ -86,7 +70,7 @@ class _FriendsState extends State<Friends> {
                                     ),
                                     textAlign: TextAlign.center,
                                   )
-                              )
+                              ),
                             ],
                           )
                       );
@@ -107,7 +91,7 @@ class _FriendsState extends State<Friends> {
       user = u;
 
       FriendshipMiddleware.listFromSave().then((List<Friendship> list) {
-        Friends.friends_controller.sink.add(list);
+        Influencers.influencers_controller.sink.add(list);
       });
     });
   }

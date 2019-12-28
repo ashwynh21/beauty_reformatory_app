@@ -32,7 +32,7 @@ class _BrSpinnerState extends State<BrSpinner> {
       duration: Duration(milliseconds: 400),
       width: 28,
       height: 28,
-      bottom: 128 + MediaQuery.of(context).viewInsets.bottom,
+      bottom: 160 + MediaQuery.of(context).viewInsets.bottom,
 
         child: AnimatedOpacity(
           duration: Duration(milliseconds: 400),
@@ -43,8 +43,10 @@ class _BrSpinnerState extends State<BrSpinner> {
   }
 
   void animate(bool s) {
-    setState(() {
-      show = s;
-    });
+    if(mounted) {
+      setState(() {
+        show = s;
+      });
+    }
   }
 }

@@ -97,8 +97,8 @@ class _SplooshState extends State<Sploosh> {
             }
           ),
 
-          snack,
-          loader,
+          dialogs.snack,
+          dialogs.loader,
         ],
       ),
     );

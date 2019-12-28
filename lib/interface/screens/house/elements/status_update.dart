@@ -64,7 +64,7 @@ class _StatusUpdateState extends State<StatusUpdate> {
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 16,
-                    fontFamily: 'Jandys Dua',
+                    fontFamily: 'Handlee',
                     color: Colors.black54.withOpacity((widget.user.status != null) ? 1 : 0.12),
                     letterSpacing: 1.0,
                   ),
@@ -88,7 +88,7 @@ class _StatusUpdateState extends State<StatusUpdate> {
                         instruction: 'Type a status about yourself.',
                         callback: (BrEditFieldDialog dialog, String value) {
                           setState(() {
-                            loader.show(true);
+                            dialogs.loader.show(true);
                           });
 
                           return UserController().update(
@@ -97,16 +97,16 @@ class _StatusUpdateState extends State<StatusUpdate> {
                             status: value,
                           ).then((User user) {
                             if(user != null){
-                              snack.show('Hey, your profile has been updated!');
+                              dialogs.snack.show('Hey, your profile has been updated!');
                               setState(() {
                                 widget.user = user;
-                                loader.show(false);
+                                dialogs.loader.show(false);
                               });
                             }
                           }).catchError((error) {
-                            snack.show(error.message);
+                            dialogs.snack.show(error.message);
                             setState(() {
-                              loader.show(false);
+                              dialogs.loader.show(false);
                             });
                           });
                         }

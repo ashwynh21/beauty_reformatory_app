@@ -5,7 +5,7 @@ import 'package:beautyreformatory/utilities/resources.dart';
 
 class BrTabNavigation extends StatefulWidget {
   List<String> tabs;
-  int selected = 0;
+  int selected;
   double width, height;
 
   void Function(BrTabNavigation, int) ontab;
@@ -15,6 +15,7 @@ class BrTabNavigation extends StatefulWidget {
     @required this.tabs,
     @required this.ontab,
     @required this.stream,
+    @required this.selected,
     this.width,
     this.height = 36,
   }) : super(key: key);
@@ -112,7 +113,7 @@ class _BrTabNavigationState extends State<BrTabNavigation> {
                     onTap: () {
                       setState(() {
                         widget.selected = 2;
-                        widget.ontab(widget, 1);
+                        widget.ontab(widget, 2);
                       });
                     },
                     splashColor: resources.colors.primary.withOpacity(0.08),

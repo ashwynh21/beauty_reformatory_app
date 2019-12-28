@@ -62,7 +62,7 @@ class _BrAvatarState extends State<BrAvatar> {
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                                image: image(widget.src)
+                                image: image(widget.src ?? 'lib/interface/assets/images/default_avatar.png')
                             )
                         ),
                       ),
@@ -118,7 +118,7 @@ class _BrAvatarState extends State<BrAvatar> {
           shape: BoxShape.circle,
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: image(widget.src)
+            image: image(widget.src ?? 'lib/interface/assets/images/default_avatar.png')
           )
         ),
       ),

@@ -31,7 +31,7 @@ class _BrSnackState extends State<BrSnack> {
       curve: Curves.easeOutCubic,
       width: MediaQuery.of(context).size.width,
       left: (show) ? 0 : MediaQuery.of(context).size.width,
-      bottom: 48 +  MediaQuery.of(context).viewInsets.bottom,
+      bottom: 96 +  MediaQuery.of(context).viewInsets.bottom,
       child: Opacity(
         opacity: 0.64,
         child: Container(
@@ -75,14 +75,18 @@ class _BrSnackState extends State<BrSnack> {
   }
 
   void popup(String text) {
-    setState(() {
-      widget.text = text;
-      show = true;
-    });
-    Future.delayed(Duration(seconds: 4), () {
+    if(mounted) {
       setState(() {
-        show = false;
+        widget.text = text;
+        show = true;
       });
+    }
+    Future.delayed(Duration(seconds: 4), () {
+      if(mounted) {
+        setState(() {
+          show = false;
+        });
+      }
     });
   }
 }

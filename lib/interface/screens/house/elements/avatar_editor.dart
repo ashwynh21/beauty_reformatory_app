@@ -27,8 +27,14 @@ class _AvatarEditorState extends State<AvatarEditor> {
     return Stack(
       alignment: Alignment.bottomRight,
       children: <Widget>[
-        GestureDetector(
-          onTap: () {
+        BrAvatar(
+          src: widget.user.image,
+          elevation: 4,
+          size: 128,
+          radius: 64,
+          frame: 8,
+          hero: 'avatar',
+          click: (view) {
             Navigator.push(
               context,
               PageRouteBuilder(
@@ -38,7 +44,7 @@ class _AvatarEditorState extends State<AvatarEditor> {
                   hero: 'avatar',
                   callback: (view, source, remove) async {
                     setState(() {
-                      loader.show(true);
+                      dialogs.loader.show(true);
                     });
 
                     (DefaultAssetBundle.of(context).load('lib/interface/assets/images/default_avatar.png')).then((data) {
@@ -50,16 +56,16 @@ class _AvatarEditorState extends State<AvatarEditor> {
                         image: (remove) ? '' : widget.user.image,
                       ).then((User user) async {
                         if(user != null){
-                          snack.show('Hey, your profile has been updated!');
+                          dialogs.snack.show('Hey, your profile has been updated!');
                           setState(() {
                             widget.user = user;
-                            loader.show(false);
+                            dialogs.loader.show(false);
                           });
                         }
                       }).catchError((error) {
-                        snack.show(error.message);
+                        dialogs.snack.show(error.message);
                         setState(() {
-                          loader.show(false);
+                          dialogs.loader.show(false);
                         });
                       });
                     });
@@ -69,15 +75,7 @@ class _AvatarEditorState extends State<AvatarEditor> {
               ),
             );
           },
-          child: BrAvatar(
-            src: widget.user.image,
-            elevation: 4,
-            size: 128,
-            radius: 64,
-            frame: 8,
-            hero: 'avatar',
-            stroke: resources.colors.light.withOpacity(0.64),
-          ),
+          stroke: resources.colors.light.withOpacity(0.64),
         ),
         Container(
           width: 40,
@@ -93,7 +91,7 @@ class _AvatarEditorState extends State<AvatarEditor> {
                   title: 'Profile picture',
                   callback: (BrSelectImageSourceDialog dialog, String source, bool remove) async {
                     setState(() {
-                      loader.show(true);
+                      dialogs.loader.show(true);
                     });
 
                     (DefaultAssetBundle.of(context).load('lib/interface/assets/images/default_avatar.png')).then((data) {
@@ -105,16 +103,16 @@ class _AvatarEditorState extends State<AvatarEditor> {
                         image: (remove) ? '' : widget.user.image,
                       ).then((User user) async {
                         if(user != null){
-                          snack.show('Hey, your profile has been updated!');
+                          dialogs.snack.show('Hey, your profile has been updated!');
                           setState(() {
                             widget.user = user;
-                            loader.show(false);
+                            dialogs.loader.show(false);
                           });
                         }
                       }).catchError((error) {
-                        snack.show(error.message);
+                        dialogs.snack.show(error.message);
                         setState(() {
-                          loader.show(false);
+                          dialogs.loader.show(false);
                         });
                       });
                     });

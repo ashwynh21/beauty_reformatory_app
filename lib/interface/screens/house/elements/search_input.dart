@@ -113,7 +113,7 @@ class SearchInput extends StatelessWidget {
                           src: 'lib/interface/assets/icons/search.svg',
                           color: Colors.white,
                           click: (view) {
-                            submit(this, value);
+                            submit(this, this.value ?? '');
                           }
                       ),
                     ),

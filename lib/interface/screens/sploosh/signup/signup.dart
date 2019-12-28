@@ -269,7 +269,7 @@ class _SignupState extends State<Signup> {
         background: resources.colors.primary,
         click: (view) {
 
-          loader.show(true);
+          dialogs.loader.show(true);
           FirebaseMessaging firebase = new FirebaseMessaging();
 
           firebase.getToken().then((String token) {
@@ -286,15 +286,15 @@ class _SignupState extends State<Signup> {
             then((User user) {
               if(user != null) {
                 BeautyReformatory.initapp().then((User user) {
-                  loader.show(false).then((value){
+                  dialogs.loader.show(false).then((value){
                     widget.success(widget);
                   });
                 });
               }
             });
           }).catchError((error) {
-            snack.show(error.message);
-            loader.show(false);
+            dialogs.snack.show(error.message);
+            dialogs.loader.show(false);
           });
         }
     );
@@ -311,7 +311,7 @@ class _SignupState extends State<Signup> {
           ],
         );
 
-        loader.show(true);
+        dialogs.loader.show(true);
         FirebaseMessaging firebase = new FirebaseMessaging();
 
         firebase.getToken().then((String token) {
@@ -327,14 +327,14 @@ class _SignupState extends State<Signup> {
               then((Account account) {
                 if(account != null) {
                   BeautyReformatory.initapp().then((User user) {
-                    loader.show(false).then((value){
+                    dialogs.loader.show(false).then((value){
                       widget.success(widget);
                     });
                   });
                 }
               }).catchError((error) {
-                loader.show(false);
-                snack.show(error.message);
+                dialogs.loader.show(false);
+                dialogs.snack.show(error.message);
               });
             });
           });
@@ -344,8 +344,8 @@ class _SignupState extends State<Signup> {
            * for now though we will just show it in the snack
            */
 
-          loader.show(false);
-          snack.show(error.toString());
+          dialogs.loader.show(false);
+          dialogs.snack.show(error.toString());
         });
       },
     );
@@ -355,7 +355,7 @@ class _SignupState extends State<Signup> {
       color: resources.colors.facebook,
 
       click: (view) {
-        loader.show(true);
+        dialogs.loader.show(true);
         FirebaseMessaging firebase = new FirebaseMessaging();
 
         firebase.getToken().then((String token) {
@@ -372,19 +372,19 @@ class _SignupState extends State<Signup> {
                 then((Account account) {
                   if(account != null) {
                     BeautyReformatory.initapp().then((User user) {
-                      loader.show(false).then((value){
+                      dialogs.loader.show(false).then((value){
                         widget.success(widget);
                       });
                     });
                   }
                 }).catchError((error) {
-                  loader.show(false);
-                  snack.show(error.message);
+                  dialogs.loader.show(false);
+                  dialogs.snack.show(error.message);
                 });
 
                 break;
               case FacebookLoginStatus.cancelledByUser:
-                loader.show(false);
+                dialogs.loader.show(false);
                 break;
               case FacebookLoginStatus.error:
                 throw new ExternalException(result.errorMessage);
@@ -398,8 +398,8 @@ class _SignupState extends State<Signup> {
            * for now though we will just show it in the snack
            */
 
-          loader.show(false);
-          snack.show(error.toString());
+          dialogs.loader.show(false);
+          dialogs.snack.show(error.toString());
         });
       },
     );

@@ -74,6 +74,7 @@ class ProfileTopNavigation extends StatelessWidget {
                       tabs: ['profile info.', 'posts & content', 'goals & affirmations'],
                       stream: Profile.page_controller.stream,
                       ontab: (view, index) => ontab(this, index),
+                      selected: tab,
                     )
                 )
               ],

@@ -32,6 +32,11 @@ class _database {
     'id', 'user', 'description', 'date'
   ];
 
+  String messages_name = 'messages';
+  List<String> messages_columns = [
+    'id', 'friendship', 'sender', 'recipient', 'state', 'message', 'date'
+  ];
+
   Future<void> open(Database db) async {
     await db.execute('''
       create table $friendship_name( 
@@ -56,6 +61,17 @@ class _database {
         ${abuse_columns[1]} text,
         ${abuse_columns[2]} text,
         ${abuse_columns[3]} text
+        )''');
+
+    await db.execute('''
+      create table $messages_name( 
+        ${messages_columns[0]} text primary key,
+        ${messages_columns[1]} text,
+        ${messages_columns[2]} text,
+        ${messages_columns[3]} text,
+        ${messages_columns[4]} integer,
+        ${messages_columns[5]} text,
+        ${messages_columns[6]} text
         )''');
   }
 }

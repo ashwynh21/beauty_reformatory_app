@@ -8,20 +8,19 @@ import 'package:beautyreformatory/interface/dialogs/br_user_profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-final BrSnack snack = BrSnack();
-final BrSpinner loader = BrSpinner();
-
 class dialogs {
+  static final BrSnack snack = BrSnack();
+  static final BrSpinner loader = BrSpinner();
+
   static void userprofile(BuildContext context, {
     String image,
     String id,
     String fullname,
     String email,
-    String icon,
     int state,
-    void Function(BrUserProfile) add,
+    Future Function(BrUserProfile) left,
     void Function(BrUserProfile, String) report,
-    void Function(BrUserProfile) callback,
+    void Function(BrUserProfile) right,
   }) {
     Navigator.push(context, new PageRouteBuilder(
       pageBuilder: (BuildContext context, __, ___) {
@@ -31,10 +30,9 @@ class dialogs {
           fullname: fullname,
           email: email,
           state: state,
-          add: add,
-          icon: icon,
+          left: left,
           report: report,
-          callback: callback,
+          right: right,
         );
       },
       transitionDuration: Duration(milliseconds: 256),
@@ -42,11 +40,11 @@ class dialogs {
       opaque: false
     ));
   }
-  static void confirmoperation(BuildContext context, {
+  static Future confirmoperation(BuildContext context, {
     @required String message,
     @required Future Function(BrConfirmOperation, bool) callback
   }) {
-    showDialog(context: context,
+    return showDialog(context: context,
       builder: (BuildContext context) => BrConfirmOperation(
         message: message,
         callback: callback,

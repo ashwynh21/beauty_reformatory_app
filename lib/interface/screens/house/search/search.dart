@@ -45,18 +45,6 @@ class _SearchState extends State<Search> {
                        */
                       PeopleResults(
                           stream: people_stream.stream,
-                          reload: (view) {
-                            loader.show(true);
-                            UserMiddleware.fromSave().then((User user) {
-                              UserController().find(email: user.email, token: user.token, find: search_value).then((List<Map> results) {
-                                setState(() {
-                                  people_stream.sink.add(results);
-                                });
-                              }).catchError((error) {
-                                snack.show(error.message);
-                              }).whenComplete(() => loader.show(false));
-                            });
-                          }
                       ),
 
                       /*
@@ -82,22 +70,22 @@ class _SearchState extends State<Search> {
                 submit: (view, value) {
                   search_value = value;
                   if(value.length > 0) {
-                    loader.show(true);
+                    dialogs.loader.show(true);
                     UserMiddleware.fromSave().then((User user) {
                       UserController().find(email: user.email, token: user.token, find: value).then((List<Map> results) {
 
                         people_stream.sink.add(results);
                       }).catchError((error) {
-                        snack.show(error.message);
-                      }).whenComplete(() => loader.show(false));
+                        dialogs.snack.show(error.message);
+                      }).whenComplete(() => dialogs.loader.show(false));
                     });
                   }
                 }
             ),
-
             StatusBar(),
-            loader,
-            snack,
+
+            dialogs.loader,
+            dialogs.snack,
           ],
         ),
       ),

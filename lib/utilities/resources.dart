@@ -25,11 +25,14 @@ class _colors {
     Color white = Colors.white;
     Color dark = Color(0xFF261F22);
     Color light = Color(0xFFF9B0D5);
+    Color chat = Color(0xFFF2C2F6);
+    Color recipient = Color(0xFFF8E8F6);
     Color facebook = Color(0xFF3F7EBC);
     Color google = Color(0xFFE54E3F);
+    Color material = Color(0xFFFAFAFA);
 }
 class _material_colors {
-  static Map<int, Color> primary_map = {
+  static Map<int, Color> _primary_map = {
     50: Color(0xFFB97095).withOpacity(0.1),
     100: Color(0xFFB97095).withOpacity(0.2),
     200: Color(0xFFB97095).withOpacity(0.3),
@@ -42,7 +45,7 @@ class _material_colors {
     900: Color(0xFFB97095).withOpacity(1),
   };
 
-  MaterialColor primary = MaterialColor(0xFFB97095, primary_map);
+  MaterialColor primary = MaterialColor(0xFFB97095, _primary_map);
 }
 class _flare {
   List<String> files = [

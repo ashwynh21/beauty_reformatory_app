@@ -42,7 +42,7 @@ class AbuseController {
   }
 
   Future<Response> _request(Map<String, dynamic> data,
-      {String end, int timeout = 8}) async {
+      {String end, int timeout = env.timeout.normal}) async {
     return http.post(env.root + branch + end,
         body: data)
         .timeout(Duration(seconds: timeout))

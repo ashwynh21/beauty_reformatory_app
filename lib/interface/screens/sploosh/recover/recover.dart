@@ -140,19 +140,19 @@ class _RecoverState extends State<Recover> {
         color: Colors.white,
         background: resources.colors.primary,
         click: (view) async {
-          loader.show(true);
+          dialogs.loader.show(true);
           (new UserController()).
           recover(email: username.value).
           then((String message) {
-            loader.show(false).then((value){
+            dialogs.loader.show(false).then((value){
               if(message != null) {
-                snack.show(message);
+                dialogs.snack.show(message);
                 widget.login(widget);
               }
             });
           }).catchError((error) {
-            snack.show(error.message);
-            loader.show(false);
+            dialogs.snack.show(error.message);
+            dialogs.loader.show(false);
           });
         }
     );

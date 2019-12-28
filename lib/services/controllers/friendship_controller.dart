@@ -20,8 +20,51 @@ class FriendshipController {
     'block',
     'remove',
     'add',
+    'cancel',
+    'approve',
+    'getuser',
   ];
 
+  Future<Friendship> approve({
+    @required email,
+    @required token,
+    @required subject
+  }) async {
+    if(token == null || email == null || subject == null  || !isEmail(email) || !isEmail(subject)) {
+      throw ValidationException('Oops, invalid field format!');
+    } else {
+      return _request(<String, String> {
+        'email': email,
+        'token': token,
+        'subject': subject,
+      }, end: endpoints[7]).then((Response response) async {
+        Friendship friends = await FriendshipMiddleware.fromResponse(response);
+        await FriendshipMiddleware.toSave(friends);
+
+        return friends;
+      });
+    }
+  }
+  Future<Friendship> cancel({
+    @required email,
+    @required token,
+    @required subject
+  }) async {
+    if(token == null || email == null || subject == null  || !isEmail(email) || !isEmail(subject)) {
+      throw ValidationException('Oops, invalid field format!');
+    } else {
+      return _request(<String, String> {
+        'email': email,
+        'token': token,
+        'subject': subject,
+      }, end: endpoints[6]).then((Response response) async {
+        Friendship friends = await FriendshipMiddleware.fromResponse(response);
+        await FriendshipMiddleware.toSave(friends);
+
+        return friends;
+      });
+    }
+  }
   Future<Friendship> add({
     @required email,
     @required token,
@@ -138,7 +181,7 @@ class FriendshipController {
   }
 
   Future<Response> _request(Map<String, dynamic> data,
-      {String end, int timeout = 8}) async {
+      {String end, int timeout = env.timeout.normal}) async {
     return http.post(env.root + branch + end,
         body: data)
         .timeout(Duration(seconds: timeout))

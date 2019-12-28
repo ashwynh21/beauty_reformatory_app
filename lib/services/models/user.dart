@@ -25,7 +25,7 @@ class User {
   String password; // String
   List<Post> posts; // List<Post>
   String secret; // String
-  String state; // String
+  int state; // String
   String firebase;
   String status; // String
   List<Friendship> subjected; // List<Friendship>
@@ -35,9 +35,9 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      accounts: (json.containsKey('accounts') && json['accounts'] != null) ? (json['accounts'] as Iterable).map((a) => Account.fromJson(a)).toList() : null,
-      initiated: (json.containsKey('initiated') && json['initiated'] != null) ? (json['initiated'] as Iterable).map((f) => Friendship.fromJson(f)).toList() : null,
-      subjected: (json.containsKey('subjected') && json['subjected'] != null) ? (json['subjected'] as Iterable).map((f) => Friendship.fromJson(f)).toList() : null,
+      accounts: (json.containsKey('accounts') && json['accounts'] != null && json['accounts'].length > 0) ? (json['accounts'] as Iterable).map((a) => Account.fromJson(a)).toList() : null,
+      initiated: (json.containsKey('initiated') && json['initiated'] != null && json['initiated'].length > 0) ? (json['initiated'] as Iterable).map((f) => Friendship.fromJson(f)).toList() : null,
+      subjected: (json.containsKey('subjected') && json['subjected'] != null && json['subjected'].length > 0) ? (json['subjected'] as Iterable).map((f) => Friendship.fromJson(f)).toList() : null,
       circles: json['circles'],
       comments: json['comments'],
       date: json['date'],

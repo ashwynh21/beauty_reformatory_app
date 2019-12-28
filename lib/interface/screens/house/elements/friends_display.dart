@@ -4,6 +4,7 @@ import 'package:beautyreformatory/interface/components/br_avatar.dart';
 import 'package:beautyreformatory/services/middleware/friendship_middleware.dart';
 import 'package:beautyreformatory/services/models/friendship.dart';
 import 'package:beautyreformatory/services/models/user.dart';
+import 'package:beautyreformatory/utilities/environment.dart';
 import 'package:flutter/material.dart';
 
 class FriendsDisplay extends StatelessWidget {
@@ -29,7 +30,12 @@ class FriendsDisplay extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.end,
 
-                      children: friendships.data.map((f) {
+                      children: (friendships.data..removeWhere((e) => (
+                        e.state == removed ||
+                        e.state == cancelled ||
+                        e.state == pending ||
+                        e.state == blocked
+                      ))).map((f) {
                         if(f.initiator.id != user.id) {
                           return Transform.translate(
                             offset: Offset(16 + 20.0 * - (friendships.data.indexOf(f)), 0),

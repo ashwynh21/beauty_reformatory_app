@@ -241,7 +241,7 @@ class _LoginState extends State<Login> {
         color: Colors.white,
         background: resources.colors.primary,
         click: (view) async {
-          loader.show(true);
+          dialogs.loader.show(true);
           FirebaseMessaging firebase = new FirebaseMessaging();
 
           firebase.getToken().then((String token) {
@@ -253,10 +253,10 @@ class _LoginState extends State<Login> {
                 firebase: token,
             ).
             then((User user) {
-              loader.show(false).then((value){
+              dialogs.loader.show(false).then((value){
                 if(user != null) {
                   BeautyReformatory.initapp().then((User user) {
-                    loader.show(false).then((value){
+                    dialogs.loader.show(false).then((value){
                       Navigator.of(context).pushReplacementNamed('/house');
                     });
                   });
@@ -264,8 +264,8 @@ class _LoginState extends State<Login> {
               });
             });
           }).catchError((error) {
-            snack.show(error.message);
-            loader.show(false);
+            dialogs.snack.show(error.message);
+            dialogs.loader.show(false);
           });
 
         }
@@ -283,7 +283,7 @@ class _LoginState extends State<Login> {
           ],
         );
 
-        loader.show(true);
+        dialogs.loader.show(true);
         FirebaseMessaging firebase = new FirebaseMessaging();
 
         firebase.getToken().then((String token) {
@@ -299,14 +299,14 @@ class _LoginState extends State<Login> {
               then((Account account) {
                 if(account != null) {
                   BeautyReformatory.initapp().then((User user) {
-                    loader.show(false).then((value){
+                    dialogs.loader.show(false).then((value){
                       Navigator.of(context).pushReplacementNamed('/house');
                     });
                   });
                 }
               }).catchError((error) {
-                loader.show(false);
-                snack.show(error.toString());
+                dialogs.loader.show(false);
+                dialogs.snack.show(error.toString());
               });
             });
           });
@@ -316,8 +316,8 @@ class _LoginState extends State<Login> {
            * for now though we will just show it in the snack
            */
 
-          loader.show(false);
-          snack.show(error.toString());
+          dialogs.loader.show(false);
+          dialogs.snack.show(error.toString());
         });
       },
     );
@@ -328,7 +328,7 @@ class _LoginState extends State<Login> {
 
       click: (view) {
 
-        loader.show(true);
+        dialogs.loader.show(true);
         FirebaseMessaging firebase = new FirebaseMessaging();
 
         firebase.getToken().then((String token) {
@@ -344,23 +344,23 @@ class _LoginState extends State<Login> {
                     firebase: token,
                 ).
                 then((Account account) {
-                  loader.show(false).then((value){
+                  dialogs.loader.show(false).then((value){
                     if(account != null) {
                       BeautyReformatory.initapp().then((User user) {
-                        loader.show(false).then((value){
+                        dialogs.loader.show(false).then((value){
                           Navigator.of(context).pushReplacementNamed('/house');
                         });
                       });
                     }
                   });
                 }).catchError((error) {
-                  loader.show(false);
-                  snack.show(error.toString());
+                  dialogs.loader.show(false);
+                  dialogs.snack.show(error.toString());
                 });
 
                 break;
               case FacebookLoginStatus.cancelledByUser:
-                loader.show(false);
+                dialogs.loader.show(false);
                 break;
               case FacebookLoginStatus.error:
                 throw new ExternalException(result.errorMessage);
@@ -374,8 +374,8 @@ class _LoginState extends State<Login> {
            * for now though we will just show it in the snack
            */
 
-          loader.show(false);
-          snack.show(error.toString());
+          dialogs.loader.show(false);
+          dialogs.snack.show(error.toString());
         });
 
       },

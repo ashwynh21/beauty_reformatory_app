@@ -27,7 +27,7 @@ class House extends StatelessWidget {
                 margin: EdgeInsets.only(top: 80),
 
                 child: PageView.builder(
-                  controller: PageController(initialPage: 1),
+                  controller: PageController(initialPage: 0),
                   itemCount: 2,
                   itemBuilder: (context, index) {
                     switch(index) {
@@ -46,8 +46,8 @@ class House extends StatelessWidget {
 
               NavigationBar(),
 
-              snack,
-              loader,
+              dialogs.snack,
+              dialogs.loader,
 
             ],
           )
