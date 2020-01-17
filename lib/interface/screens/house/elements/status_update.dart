@@ -60,11 +60,11 @@ class _StatusUpdateState extends State<StatusUpdate> {
 
               child: Container(
                 alignment: Alignment.centerLeft,
-                child: Text(widget.user.status,
+                child: Text(widget.user.status??'type a status',
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 16,
-                    fontFamily: 'Handlee',
+                    fontFamily: 'Handle',
                     color: Colors.black54.withOpacity((widget.user.status != null) ? 1 : 0.12),
                     letterSpacing: 1.0,
                   ),

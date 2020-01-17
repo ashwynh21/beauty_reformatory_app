@@ -13,10 +13,21 @@ class database {
   Future Function(Database) abuse = (Database data) async {
     return db.open(data);
   };
+  Future Function(Database) articles = (Database data) async {
+    return db.open(data);
+  };
+  Future Function(Database) bookmarks = (Database data) async {
+    return db.open(data);
+  };
 
   database();
 }
 class _database {
+  String task_name = 'tasks';
+  List<String> task_columns = [
+    'id', 'title', 'description', 'due', 'finish', 'completed', 'date'
+  ];
+
   String friendship_name = 'friendships';
   List<String> friendship_columns = [
     'id', 'subject', 'initiator', 'state', 'date'
@@ -37,7 +48,46 @@ class _database {
     'id', 'friendship', 'sender', 'recipient', 'state', 'message', 'date'
   ];
 
+  String articles_name = 'articles';
+  List<String> articles_columns = [
+    'id', 'user', 'title', 'description', 'date'
+  ];
+
+  String bookmarks_name = 'bookmarks';
+  List<String> bookmarks_columns = [
+    'id', 'article', 'user', 'value', 'date'
+  ];
+
   Future<void> open(Database db) async {
+    await db.execute('''
+      create table $task_name( 
+        ${task_columns[0]} text primary key,
+        ${task_columns[1]} text,
+        ${task_columns[2]} text,
+        ${task_columns[3]} text,
+        ${task_columns[4]} text,
+        ${task_columns[5]} text,
+        ${task_columns[6]} text
+        )''');
+
+    await db.execute('''
+      create table $bookmarks_name( 
+        ${bookmarks_columns[0]} text primary key,
+        ${bookmarks_columns[1]} text,
+        ${bookmarks_columns[2]} text,
+        ${bookmarks_columns[3]} text,
+        ${bookmarks_columns[4]} text
+        )''');
+
+    await db.execute('''
+      create table $articles_name( 
+        ${articles_columns[0]} text primary key,
+        ${articles_columns[1]} text,
+        ${articles_columns[2]} text,
+        ${articles_columns[3]} text,
+        ${articles_columns[4]} text
+        )''');
+
     await db.execute('''
       create table $friendship_name( 
         ${friendship_columns[0]} text primary key,

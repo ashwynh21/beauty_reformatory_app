@@ -1,7 +1,6 @@
 import 'package:beautyreformatory/interface/components/br_avatar.dart';
 import 'package:beautyreformatory/interface/components/br_icon.dart';
 import 'package:beautyreformatory/services/controllers/user_controller.dart';
-import 'package:beautyreformatory/services/models/user.dart';
 import 'package:beautyreformatory/utilities/resources.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +8,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class NavigationBar extends StatelessWidget {
   BrIcon circles, settings, lightroom, profile;
+  bool Function(int) click;
 
   NavigationBar({Key key,
+    @required this.click,
   }) {
     UserController();
 
@@ -83,6 +84,9 @@ class NavigationBar extends StatelessWidget {
                               elevation: 4,
                               size: 40,
                               radius: 20,
+                              click: (view) {
+                                click(3);
+                              },
                             ) : Container(),
                           )
                       ),
@@ -102,7 +106,7 @@ class NavigationBar extends StatelessWidget {
         color: resources.colors.primary,
         size: 48,
         click: (view) {
-
+          click(0);
         }
     );
     settings = BrIcon(
@@ -110,7 +114,7 @@ class NavigationBar extends StatelessWidget {
         color: resources.colors.primary,
         size: 48,
         click: (view) {
-
+          click(1);
         }
     );
     lightroom = BrIcon(
@@ -118,7 +122,7 @@ class NavigationBar extends StatelessWidget {
         color: resources.colors.primary,
         size: 48,
         click: (view) {
-
+          click(2);
         }
     );
   }

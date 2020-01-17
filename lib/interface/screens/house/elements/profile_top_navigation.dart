@@ -71,7 +71,7 @@ class ProfileTopNavigation extends StatelessWidget {
                     margin: EdgeInsets.only(top: 8),
 
                     child: BrTabNavigation(
-                      tabs: ['profile info.', 'posts & content', 'goals & affirmations'],
+                      tabs: ['profile info.', 'posts & content', 'goals & tasks'],
                       stream: Profile.page_controller.stream,
                       ontab: (view, index) => ontab(this, index),
                       selected: tab,

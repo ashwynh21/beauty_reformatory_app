@@ -3,6 +3,7 @@ import 'package:beautyreformatory/interface/components/br_spinner.dart';
 import 'package:beautyreformatory/interface/dialogs/br_confirm_operation.dart';
 import 'package:beautyreformatory/interface/dialogs/br_edit_field_dialog.dart';
 import 'package:beautyreformatory/interface/dialogs/br_select_image_source_dialog.dart';
+import 'package:beautyreformatory/interface/dialogs/br_select_task_goal.dart';
 import 'package:beautyreformatory/interface/dialogs/br_user_profile.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -12,6 +13,16 @@ class dialogs {
   static final BrSnack snack = BrSnack();
   static final BrSpinner loader = BrSpinner();
 
+  static void taskselect(BuildContext context,
+        bool Function(BrSelectTaskGoal, bool) callback
+      ) {
+    showDialog(context: context,
+      builder: (BuildContext context) => BrSelectTaskGoal(
+        callback: callback,
+      ),
+      barrierDismissible: true,
+    );
+  }
   static void userprofile(BuildContext context, {
     String image,
     String id,

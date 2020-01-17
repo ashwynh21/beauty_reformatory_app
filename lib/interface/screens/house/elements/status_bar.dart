@@ -104,6 +104,8 @@ class _StatusBarState extends State<StatusBar> {
         color: resources.colors.primary,
         click: (view) {
 
+          if(ModalRoute.of(context).settings.name != '/messaging')
+            Navigator.pushNamed(context, '/messaging');
         }
     );
     share = BrIconButton(

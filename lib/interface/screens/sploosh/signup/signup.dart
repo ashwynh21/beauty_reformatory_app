@@ -264,6 +264,7 @@ class _SignupState extends State<Signup> {
       },
     );
     submit = BrButton(
+        network: true,
         title: 'sign up',
         color: Colors.white,
         background: resources.colors.primary,
@@ -272,9 +273,9 @@ class _SignupState extends State<Signup> {
           dialogs.loader.show(true);
           FirebaseMessaging firebase = new FirebaseMessaging();
 
-          firebase.getToken().then((String token) {
+          return firebase.getToken().then((String token) {
 
-            (new UserController()).
+            return (new UserController()).
             create(
               email: email.value,
               password: password.value,

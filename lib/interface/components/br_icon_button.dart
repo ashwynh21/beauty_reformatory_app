@@ -9,7 +9,7 @@ class BrIconButton extends StatefulWidget {
 
   String src;
   Color background, color;
-  double elevation, padding, size;
+  double elevation, padding, size, radius;
   Function(Widget) click;
 
   BrIconButton({Key key,
@@ -20,6 +20,7 @@ class BrIconButton extends StatefulWidget {
     this.background,
     this.color,
     this.size = 44,
+    this.radius = 22,
   }) : super(key: key);
 
   @override
@@ -45,7 +46,7 @@ class _BrIconButtonState extends State<BrIconButton> {
           splashColor: (widget.color != null) ? widget.color.withOpacity(0.24) : null,
           highlightColor: (widget.color != null) ? widget.color.withOpacity(0.08) : null,
           elevation: widget.elevation,
-          shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(widget.size / 2.0)),
+          shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(widget.radius)),
           onPressed: () {
             if (widget.src.substring(widget.src.lastIndexOf('.') + 1, widget.src.length) == 'flr') {
               setState(() {
@@ -75,7 +76,7 @@ class _BrIconButtonState extends State<BrIconButton> {
 
   Widget icon(String icon) {
     if (icon.substring(icon.lastIndexOf('.') + 1, icon.length) == 'svg' ) {
-      return SvgPicture.asset(icon, color: widget.color, width: 22);
+      return SvgPicture.asset(icon, color: widget.color, width: widget.radius);
     } else if (icon.substring(icon.lastIndexOf('.') + 1, icon.length) == 'flr') {
       return FlareActor(icon, alignment: Alignment.center, fit: BoxFit.contain, animation: animation, color: widget.color);
     }

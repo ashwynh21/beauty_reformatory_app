@@ -5,12 +5,13 @@ import 'package:flutter_svg/svg.dart';
 
 class BrButton extends StatefulWidget {
   _BrButtonState state;
+  bool network;
 
   String title, icon;
   Color background, color;
   int elevation, fontSize;
   double height;
-  Function(BrButton) click;
+  Future Function(BrButton) click;
 
   BrButton({Key key,
     this.title = '',
@@ -20,6 +21,7 @@ class BrButton extends StatefulWidget {
     this.elevation = 4,
     this.height = 44,
     this.fontSize = 16,
+    this.network = false,
     @required this.click,
   }) : super(key: key);
 
@@ -31,6 +33,7 @@ class BrButton extends StatefulWidget {
 }
 
 class _BrButtonState extends State<BrButton> {
+  bool clicked = false;
   @override
   Widget build(BuildContext context) {
     return
@@ -45,7 +48,19 @@ class _BrButtonState extends State<BrButton> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22.0)),
         onPressed: () async {
 
-          this.widget.click(this.widget);
+          setState(() {
+            clicked = true;
+          });
+
+          this.widget.click(this.widget).then((_) {
+
+            Future.delayed(Duration(seconds: 1), () {
+
+              setState(() {
+                clicked = false;
+              });
+            });
+          });
         },
 
         child: Container(
@@ -55,26 +70,11 @@ class _BrButtonState extends State<BrButton> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: (widget.icon != null) ? <Widget>[
               Container(height: widget.height - 20, width: widget.height - 20, child: icon(widget.icon)),
-              Text(
-                this.widget.title,
-                textAlign: TextAlign.center,
-                style: new TextStyle(
-                  fontSize: this.widget.fontSize.toDouble(),
-                  fontWeight: FontWeight.w400,
-                  color: this.widget.color
-                )
-              ),
+
+              networking(widget.network && clicked),
             ]
             : <Widget>[
-              Text(
-                  this.widget.title,
-                  textAlign: TextAlign.center,
-                  style: new TextStyle(
-                      fontSize: this.widget.fontSize.toDouble(),
-                      fontWeight: FontWeight.w400,
-                      color: this.widget.color
-                  )
-              ),
+              networking(widget.network && clicked),
             ],
           ),
         ),
@@ -90,5 +90,29 @@ class _BrButtonState extends State<BrButton> {
 
     return Image.asset(icon,
         width: 22);
+  }
+
+  Widget networking(bool value) {
+    return (!value)
+        ?
+        Text(
+            this.widget.title,
+            textAlign: TextAlign.center,
+            style: new TextStyle(
+                fontSize: this.widget.fontSize.toDouble(),
+                fontWeight: FontWeight.w400,
+                color: this.widget.color
+            )
+        )
+        :
+        Container(
+          height: 24,
+          width: 24,
+            child: FlareActor('lib/interface/assets/flares/spinner.flr',
+            fit: BoxFit.contain,
+            animation: 'active',
+            color: Colors.white,
+            )
+        );
   }
 }

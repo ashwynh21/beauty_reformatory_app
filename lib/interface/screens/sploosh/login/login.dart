@@ -237,6 +237,7 @@ class _LoginState extends State<Login> {
       },
     );
     submit = BrButton(
+        network: true,
         title: 'sign in',
         color: Colors.white,
         background: resources.colors.primary,
@@ -244,9 +245,9 @@ class _LoginState extends State<Login> {
           dialogs.loader.show(true);
           FirebaseMessaging firebase = new FirebaseMessaging();
 
-          firebase.getToken().then((String token) {
+          return firebase.getToken().then((String token) {
 
-            (new UserController()).
+            return (new UserController()).
             authenticate(
                 email: username.value,
                 password: password.value,
@@ -262,6 +263,9 @@ class _LoginState extends State<Login> {
                   });
                 }
               });
+            }).catchError((error) {
+              dialogs.snack.show(error.message);
+              dialogs.loader.show(false);
             });
           }).catchError((error) {
             dialogs.snack.show(error.message);

@@ -1,4 +1,3 @@
-import 'package:beautyreformatory/interface/screens/house/profile/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:beautyreformatory/utilities/resources.dart';
@@ -7,6 +6,8 @@ class BrTabNavigation extends StatefulWidget {
   List<String> tabs;
   int selected;
   double width, height;
+  Color theme;
+  List<int> flex;
 
   void Function(BrTabNavigation, int) ontab;
   Stream stream;
@@ -16,9 +17,14 @@ class BrTabNavigation extends StatefulWidget {
     @required this.ontab,
     @required this.stream,
     @required this.selected,
+    this.flex = const [2, 2, 3],
+    this.theme,
     this.width,
     this.height = 36,
-  }) : super(key: key);
+  }) {
+    if(this.theme == null)
+      this.theme = resources.colors.primary;
+  }
 
   @override
   _BrTabNavigationState createState() => _BrTabNavigationState();
@@ -50,7 +56,7 @@ class _BrTabNavigationState extends State<BrTabNavigation> {
 
             children: <Widget>[
               Expanded(
-                flex: 2,
+                flex: widget.flex[0],
                 child: Material(
                   color: Colors.transparent,
                   child: InkWell(
@@ -60,8 +66,8 @@ class _BrTabNavigationState extends State<BrTabNavigation> {
                         widget.ontab(widget, 0);
                       });
                     },
-                    splashColor: resources.colors.primary.withOpacity(0.08),
-                    highlightColor: resources.colors.primary.withOpacity(0.24),
+                    splashColor: widget.theme.withOpacity(0.08),
+                    highlightColor: widget.theme.withOpacity(0.24),
                     child: Container(
                       alignment: Alignment.center,
                       height: widget.height - 4,
@@ -78,7 +84,7 @@ class _BrTabNavigationState extends State<BrTabNavigation> {
                 ),
               ),
               Expanded(
-                flex: 2,
+                flex: widget.flex[1],
                 child: Material(
                   color: Colors.transparent,
                   child: InkWell(
@@ -88,8 +94,8 @@ class _BrTabNavigationState extends State<BrTabNavigation> {
                         widget.ontab(widget, 1);
                       });
                     },
-                    splashColor: resources.colors.primary.withOpacity(0.08),
-                    highlightColor: resources.colors.primary.withOpacity(0.24),
+                    splashColor: widget.theme.withOpacity(0.08),
+                    highlightColor: widget.theme.withOpacity(0.24),
                     child: Container(
                       alignment: Alignment.center,
                       height: widget.height - 4,
@@ -106,7 +112,7 @@ class _BrTabNavigationState extends State<BrTabNavigation> {
                 ),
               ),
               Expanded(
-                flex: 3,
+                flex: widget.flex[2],
                 child: Material(
                   color: Colors.transparent,
                   child: InkWell(
@@ -116,8 +122,8 @@ class _BrTabNavigationState extends State<BrTabNavigation> {
                         widget.ontab(widget, 2);
                       });
                     },
-                    splashColor: resources.colors.primary.withOpacity(0.08),
-                    highlightColor: resources.colors.primary.withOpacity(0.24),
+                    splashColor: widget.theme.withOpacity(0.08),
+                    highlightColor: widget.theme.withOpacity(0.24),
                     child: Container(
                       alignment: Alignment.center,
                       height: widget.height - 4,
@@ -152,7 +158,7 @@ class _BrTabNavigationState extends State<BrTabNavigation> {
                     width: width(context, widget.selected),
 
                     decoration: BoxDecoration(
-                      color: resources.colors.primary,
+                      color: widget.theme,
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -166,35 +172,24 @@ class _BrTabNavigationState extends State<BrTabNavigation> {
   }
   
   double width(BuildContext context, int index) {
-    int flex = 7;
-    switch(index){
-      case 0:
-        flex = 2;
-        break;
-      case 1:
-        flex = 2;
-        break;
-      case 2:
-        flex = 3;
-        break;
-    }
+    int flex = widget.flex[index];
 
-    return ((widget.width == null) ? MediaQuery.of(context).size.width : widget.width) * flex / 7.0;
+    return ((widget.width == null) ? MediaQuery.of(context).size.width : widget.width) * flex / widget.flex.reduce((a, b) => a + b);
   }
   double position(BuildContext context, int index) {
-    int flex = 7;
+    int flex = widget.flex.reduce((a, b) => a + b);
     switch(index){
       case 0:
-        flex = 7;
+        flex = flex;
         break;
       case 1:
-        flex = 5;
+        flex = widget.flex.reduce((a, b) => a + b) - widget.flex[0];
         break;
       case 2:
-        flex = 3;
+        flex = widget.flex.reduce((a, b) => a + b) - widget.flex[0] - widget.flex[1];
         break;
     }
 
-    return ((widget.width == null) ? MediaQuery.of(context).size.width : widget.width) * (7 - flex) / 7.0;
+    return ((widget.width == null) ? MediaQuery.of(context).size.width : widget.width) * (widget.flex.reduce((a, b) => a + b) - flex) / widget.flex.reduce((a, b) => a + b);
   }
 }

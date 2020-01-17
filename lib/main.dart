@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:beautyreformatory/interface/screens/house/house.dart';
+import 'package:beautyreformatory/interface/screens/house/messaging/messaging.dart';
 import 'package:beautyreformatory/interface/screens/sploosh/sploosh.dart';
+import 'package:beautyreformatory/services/controllers/article_controller.dart';
 import 'package:beautyreformatory/services/controllers/emotion_controller.dart';
 import 'package:beautyreformatory/services/controllers/friendship_controller.dart';
 import 'package:beautyreformatory/services/controllers/message_controller.dart';
@@ -98,6 +100,8 @@ class BeautyReformatory extends StatefulWidget {
           }).catchError((error) => debugPrint(error.toString()));
       EmotionController()
           .get(email: u.email, token: u.token).catchError((error) => null);
+      ArticleController()
+          .get(email: u.email, token: u.token).catchError((error) => debugPrint(error.toString()));
     });
 
     return user;
@@ -217,9 +221,10 @@ class _BeautyReformatoryState extends State<BeautyReformatory> {
             primarySwatch: resources.material_colors.primary,
           ),
           home: widget.home,
-          routes: <String, WidgetBuilder>{
+          routes: <String, WidgetBuilder> {
             '/sploosh': (BuildContext context) => new Sploosh(),
             '/house': (BuildContext context) => new House(),
+            '/messaging': (BuildContext context) => new Messaging(),
           },
         );
       }

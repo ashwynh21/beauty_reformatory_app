@@ -106,9 +106,9 @@ class _EmotionsRatingState extends State<EmotionsRating> {
                                     emojis: emojis,
                                     complete: (view, value) async {
                                       /*
-                                        Here we will then initiate the callback that will allow the upload of
-                                        the emotion to occur.
-                                         */
+                                      Here we will then initiate the callback that will allow the upload of
+                                      the emotion to occur.
+                                       */
                                       Future.delayed(Duration(seconds: 2), () async {
                                         await EmotionController().create(
                                           mood: value,

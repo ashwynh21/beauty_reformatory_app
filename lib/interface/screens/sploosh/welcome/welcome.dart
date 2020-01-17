@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:beautyreformatory/utilities/resources.dart';
 
 class Welcome extends StatelessWidget {
-  void Function(Welcome) done;
+  Future Function(Welcome) done;
 
   Welcome({
     @required this.done

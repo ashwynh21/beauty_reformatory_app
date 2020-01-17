@@ -62,11 +62,12 @@ class _BrSliderInputState extends State<BrSliderInput> {
                   distanceFromTrackBar: 2,
                   labels: List.generate(5, (index) {
                     return FlutterSliderHatchMarkLabel(
-                        percent: (index) * 20.toDouble(), label: widget.emojis[(((index * 20) / 100) * widget.emojis.length).round()]['char']
+                        percent: (index) * 20.toDouble(), label: Text(widget.emojis[(((index * 20) / 100) * widget.emojis.length).round()]['char'])
                     );
                   }).toList()..add(
                       FlutterSliderHatchMarkLabel(
-                          percent: 100, label: widget.emojis[widget.emojis.length - 1]['char']
+                          percent: 100, label: Text(widget.emojis[widget.emojis.length - 1]['char'])
+
                       )
                   ),
                 ),

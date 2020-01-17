@@ -6,7 +6,7 @@ import 'package:flutter_svg/svg.dart';
 
 class BrIcon extends StatefulWidget {
   String src;
-  Color color;
+  Color color, background;
   double size;
   Function(Widget) click;
 
@@ -14,6 +14,7 @@ class BrIcon extends StatefulWidget {
     @required this.src,
     @required this.click,
     this.color,
+    this.background,
     this.size = 38
   }) : super(key: key);
 
@@ -39,6 +40,7 @@ class _BrIconState extends State<BrIcon> {
               padding: EdgeInsets.all(9),
               splashColor: (widget.color != null) ? widget.color.withOpacity(0.12) : null,
               highlightColor: (widget.color != null) ? widget.color.withOpacity(0.24) : null,
+              color: widget.background,
 
               onPressed: () {
                 widget.click(widget);

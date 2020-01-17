@@ -42,4 +42,16 @@ class Task {
         data['title'] = this.title;
         return data;
     }
+
+    Map<String, dynamic> toSQL() {
+        final Map<String, dynamic> data = new Map<String, dynamic>();
+        data['completed'] = this.completed;
+        data['date'] = this.date;
+        data['description'] = this.description;
+        data['due'] = this.due;
+        data['finish'] = this.finish;
+        data['id'] = this.id;
+        data['title'] = this.title;
+        return data;
+    }
 }

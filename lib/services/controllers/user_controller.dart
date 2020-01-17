@@ -20,6 +20,7 @@ class UserController {
     'profile/update',
     'refresh',
     'find',
+    'getprofile'
   ];
   /*
   Here we are going to introduce a stream controller. We're doing this because
@@ -58,6 +59,25 @@ class UserController {
    * they will require a certain input from this layer, we then need to validate
    * this input.
    */
+  Future<User> getuserprofile({
+    @required email,
+    @required token,
+    @required user,
+  }) async {
+    if(email == null || token == null || user == null || (!isEmail(email))) {
+      throw ValidationException('Oops, invalid fields given!');
+    } else {
+      return _request(<String, String> {
+        'email': email,
+        'token': token,
+        'user': user,
+      }, end: endpoints[7]).then((Response response) async {
+        User user = await UserMiddleware.fromResponse(response);
+
+        return user;
+      });
+    }
+  }
   Future<List<Map>> find({
     @required email,
     @required token,

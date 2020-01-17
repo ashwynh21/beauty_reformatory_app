@@ -41,6 +41,13 @@ class _InboxState extends State<Inbox> {
     super.initState();
   }
   @override
+  void didUpdateWidget(Inbox oldWidget) {
+    _initfirebase(context).then((f) {
+      _firebase = f;
+    });
+    super.didUpdateWidget(oldWidget);
+  }
+  @override
   Widget build(BuildContext context) {
     return Material(
       color: Colors.white,
@@ -139,7 +146,6 @@ class _InboxState extends State<Inbox> {
 
       FriendshipMiddleware.listFromSave().then((List<Friendship> list) {
         Inbox.friends_controller.sink.add(list..removeWhere((e) => (e.state == blocked || e.state == declined || e.state == cancelled)));
-        setState(() {});
       });
     });
   }
@@ -156,7 +162,7 @@ class _InboxState extends State<Inbox> {
 
             MessageController().paged(email: user.email, token: user.token, friend: jsonDecode(message['data']['sender'])['email'])
                 .then((List<Message> messages) {
-                  setState(() {});
+
             });
           });
         }
@@ -169,7 +175,7 @@ class _InboxState extends State<Inbox> {
             MessageController().paged(email: user.email, token: user.token, friend: jsonDecode(message['data']['sender'])['email'])
                 .then((List<Message> messages) {
 
-              setState(() {});
+
             });
           });
         }

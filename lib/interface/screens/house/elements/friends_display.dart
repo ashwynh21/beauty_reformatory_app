@@ -66,12 +66,13 @@ class FriendsDisplay extends StatelessWidget {
                       }).toList().sublist(0, friendships.data.length > 4 ? 4 : friendships.data.length)
                   ),
                   Container(
+                    margin: EdgeInsets.only(left: 24),
                       width: 80,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          (friendships.data.length > 1) ?
+                          (friendships.data.length > 0) ?
                           Text(friendships.data.length.toString(),
                               style: TextStyle(
                                 color: Colors.black54,
