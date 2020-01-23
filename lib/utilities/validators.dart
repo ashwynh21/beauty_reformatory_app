@@ -9,7 +9,7 @@ bool isPassword(String password) {
   return RegExp(r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$").hasMatch(password);
 }
 bool isNumber(String number) {
-  return RegExp(r"(268)?(\+268)?([7])+([689])+([0-9]{6})").hasMatch(number);
+  return RegExp(r"^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$").hasMatch(number);
 }
 bool isOTP(String message){
   return RegExp(r"([0-9]{4,6})").hasMatch(message);
