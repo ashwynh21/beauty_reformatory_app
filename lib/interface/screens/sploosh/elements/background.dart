@@ -61,7 +61,7 @@ class _BackgroundState extends State<Background> {
 
           child: FlareActor('lib/interface/assets/flares/top_wave.flr',
             animation: widget.animation,
-            fit: BoxFit.contain,
+            fit: BoxFit.fitWidth,
             alignment: Alignment.topCenter,
             callback: (String animation) {
               if(animation == 'up')
